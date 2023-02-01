@@ -736,37 +736,66 @@ DASHBOARD_AUTO_REFRESH_MODE: Literal["fetch", "force"] = "force"
 # http://docs.celeryproject.org/en/latest/getting-started/brokers/index.html
 
 
-class CeleryConfig:  # pylint: disable=too-few-public-methods
-    broker_url = "sqla+sqlite:///celerydb.sqlite"
-    imports = ("superset.sql_lab",)
-    result_backend = "db+sqlite:///celery_results.sqlite"
-    worker_log_level = "DEBUG"
-    worker_prefetch_multiplier = 1
-    task_acks_late = False
+#class CeleryConfig:  # pylint: disable=too-few-public-methods
+#    broker_url = "sqla+sqlite:///celerydb.sqlite"
+#    imports = ("superset.sql_lab",)
+#    result_backend = "db+sqlite:///celery_results.sqlite"
+#    worker_log_level = "DEBUG"
+#    worker_prefetch_multiplier = 1
+#    task_acks_late = False
+#    task_annotations = {
+#        "sql_lab.get_sql_results": {"rate_limit": "100/s"},
+#        "email_reports.send": {
+#            "rate_limit": "1/s",
+#            "time_limit": int(timedelta(seconds=120).total_seconds()),
+#            "soft_time_limit": int(timedelta(seconds=150).total_seconds()),
+#            "ignore_result": True,
+#        },
+#    }
+#    beat_schedule = {
+#        "email_reports.schedule_hourly": {
+#            "task": "email_reports.schedule_hourly",
+#            "schedule": crontab(minute=1, hour="*"),
+#        },
+#        "reports.scheduler": {
+#            "task": "reports.scheduler",
+#            "schedule": crontab(minute="*", hour="*"),
+#        },
+#        "reports.prune_log": {
+#            "task": "reports.prune_log",
+#            "schedule": crontab(minute=0, hour=0),
+#        },
+#    }
+REDIS_HOST = "172.31.19.222"
+REDIS_PORT = "6379"
+
+class CeleryConfig:
+    broker_url = 'redis://%s:%s/0' % (REDIS_HOST, REDIS_PORT)
+    imports = ('superset.sql_lab', "superset.tasks", "superset.tasks.thumbnails", )
+    result_backend = 'redis://%s:%s/0' % (REDIS_HOST, REDIS_PORT)
+    worker_prefetch_multiplier = 10
+    task_acks_late = True
     task_annotations = {
-        "sql_lab.get_sql_results": {"rate_limit": "100/s"},
-        "email_reports.send": {
-            "rate_limit": "1/s",
-            "time_limit": int(timedelta(seconds=120).total_seconds()),
-            "soft_time_limit": int(timedelta(seconds=150).total_seconds()),
-            "ignore_result": True,
+        'sql_lab.get_sql_results': {
+            'rate_limit': '100/s',
+        },
+        'email_reports.send': {
+            'rate_limit': '1/s',
+            'time_limit': 600,
+            'soft_time_limit': 600,
+            'ignore_result': True,
         },
     }
     beat_schedule = {
-        "email_reports.schedule_hourly": {
-            "task": "email_reports.schedule_hourly",
-            "schedule": crontab(minute=1, hour="*"),
+        'reports.scheduler': {
+            'task': 'reports.scheduler',
+            'schedule': crontab(minute='*', hour='*'),
         },
-        "reports.scheduler": {
-            "task": "reports.scheduler",
-            "schedule": crontab(minute="*", hour="*"),
-        },
-        "reports.prune_log": {
-            "task": "reports.prune_log",
-            "schedule": crontab(minute=0, hour=0),
+        'reports.prune_log': {
+            'task': 'reports.prune_log',
+            'schedule': crontab(minute=0, hour=0),
         },
     }
-
 
 CELERY_CONFIG = CeleryConfig  # pylint: disable=invalid-name
 
@@ -948,14 +977,16 @@ FLASK_APP_MUTATOR = None
 ENABLE_ACCESS_REQUEST = False
 
 # smtp server configuration
-EMAIL_NOTIFICATIONS = False  # all the emails are sent using dryrun
-SMTP_HOST = "localhost"
-SMTP_STARTTLS = True
+ENABLE_SCHEDULED_EMAIL_REPORTS = True
+
+EMAIL_NOTIFICATIONS = True  # all the emails are sent using dryrun
+SMTP_HOST = "smtp.163.com"
+SMTP_STARTTLS = False	
 SMTP_SSL = False
-SMTP_USER = "superset"
+SMTP_USER = "shang.shi.kun@163.com"
 SMTP_PORT = 25
-SMTP_PASSWORD = "superset"
-SMTP_MAIL_FROM = "superset@superset.com"
+SMTP_PASSWORD = "BDBGLEALYBDWIUKH"
+SMTP_MAIL_FROM = "shang.shi.kun@163.com"
 
 ENABLE_CHUNK_ENCODING = False
 
@@ -1074,7 +1105,7 @@ ALERT_REPORTS_WORKING_TIME_OUT_LAG = int(timedelta(seconds=10).total_seconds())
 ALERT_REPORTS_WORKING_SOFT_TIME_OUT_LAG = int(timedelta(seconds=1).total_seconds())
 # If set to true no notification is sent, the worker will just log a message.
 # Useful for debugging
-ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
+ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
 # Max tries to run queries to prevent false errors caused by transient errors
 # being returned to users. Set to a value >1 to enable retries.
 ALERT_REPORTS_QUERY_EXECUTION_MAX_TRIES = 1
@@ -1093,7 +1124,7 @@ SLACK_PROXY = None
 # chrome:
 #   Requires: headless chrome
 #   Limitations: unable to generate screenshots of elements
-WEBDRIVER_TYPE = "firefox"
+WEBDRIVER_TYPE = "chrome"
 
 # Window size - this will impact the rendering of the data
 WEBDRIVER_WINDOW = {
@@ -1112,12 +1143,22 @@ WEBDRIVER_CONFIGURATION: Dict[Any, Any] = {"service_log_path": "/dev/null"}
 # Additional args to be passed as arguments to the config object
 # Note: these options are Chrome-specific. For FF, these should
 # only include the "--headless" arg
-WEBDRIVER_OPTION_ARGS = ["--headless", "--marionette"]
+#WEBDRIVER_OPTION_ARGS = ["--headless", "--marionette"]
+WEBDRIVER_OPTION_ARGS = [
+    "--force-device-scale-factor=2.0",
+    "--high-dpi-support=2.0",
+    "--headless",
+    "--disable-gpu",
+    "--disable-dev-shm-usage",
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
+    "--disable-extensions",
+]
 
 # The base URL to query for accessing the user interface
 WEBDRIVER_BASEURL = "http://0.0.0.0:8080/"
 # The base URL for the email report hyperlinks.
-WEBDRIVER_BASEURL_USER_FRIENDLY = WEBDRIVER_BASEURL
+WEBDRIVER_BASEURL_USER_FRIENDLY = "http://69.234.220.146:28088/"
 # Time selenium will wait for the page to load and render for the email report.
 EMAIL_PAGE_RENDER_WAIT = int(timedelta(seconds=30).total_seconds())
 
@@ -1225,7 +1266,7 @@ SQLA_TABLE_MUTATOR = lambda table: table
 # Requires GLOBAL_ASYNC_QUERIES feature flag to be enabled.
 GLOBAL_ASYNC_QUERIES_REDIS_CONFIG = {
     "port": 6379,
-    "host": "127.0.0.1",
+    "host": "172.31.19.222",
     "password": "",
     "db": 0,
     "ssl": False,
