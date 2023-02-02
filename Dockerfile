@@ -24,7 +24,7 @@ FROM python:${PY_VER} AS superset-py
 RUN sed -i s@/deb.debian.org/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 RUN cat /etc/apt/sources.list
 RUN apt-get clean
-RUN pip install -U pip
+
 RUN pip config set global.index-url http://mirrors.aliyun.com/pypi/simple
 RUN pip config set install.trusted-host mirrors.aliyun.com
 
@@ -43,6 +43,9 @@ RUN mkdir /app \
 COPY ./requirements/*.txt  /app/requirements/
 COPY setup.py MANIFEST.in README.md /app/
 COPY superset-frontend/package.json /app/superset-frontend/
+
+RUN pip config set global.index-url http://mirrors.aliyun.com/pypi/simple
+RUN pip config set install.trusted-host mirrors.aliyun.com
 RUN cd /app \
     && mkdir -p superset/static \
     && touch superset/static/version_info.json \
@@ -113,6 +116,9 @@ COPY --from=superset-node /app/superset-frontend /app/superset-frontend
 ## Lastly, let's install superset itself
 COPY superset /app/superset
 COPY setup.py MANIFEST.in README.md /app/
+
+RUN pip config set global.index-url http://mirrors.aliyun.com/pypi/simple
+RUN pip config set install.trusted-host mirrors.aliyun.com
 RUN cd /app \
         && chown -R superset:superset * \
         && pip install -e . \
@@ -159,6 +165,9 @@ RUN wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/${FIREF
     ln -s /opt/firefox/firefox /usr/local/bin/firefox
 
 # Cache everything for dev purposes...
+
+RUN pip config set global.index-url http://mirrors.aliyun.com/pypi/simple
+RUN pip config set install.trusted-host mirrors.aliyun.com
 RUN cd /app \
     && pip install --no-cache -r requirements/docker.txt \
     && pip install --no-cache -r requirements/requirements-local.txt || true
