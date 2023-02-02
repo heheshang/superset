@@ -89,6 +89,10 @@ ENV LANG=C.UTF-8 \
     SUPERSET_HOME="/app/superset_home" \
     SUPERSET_PORT=8088
 
+
+RUN sed -i s@/deb.debian.org/@/mirrors.aliyun.com/@g /etc/apt/sources.list
+RUN cat /etc/apt/sources.list
+RUN apt-get clean
 RUN mkdir -p ${PYTHONPATH} \
         && useradd --user-group -d ${SUPERSET_HOME} -m --no-log-init --shell /bin/bash superset \
         && apt-get update -y \
@@ -138,8 +142,6 @@ ARG FIREFOX_VERSION=88.0
 COPY ./requirements/*.txt ./docker/requirements-*.txt/ /app/requirements/
 
 USER root
-
-
 
 
 RUN apt-get update -y \
