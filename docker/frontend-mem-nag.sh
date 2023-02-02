@@ -19,7 +19,7 @@
 set -e
 
 # We need at least 3GB of free mem...
-MIN_MEM_FREE_GB=3
+MIN_MEM_FREE_GB=1
 MIN_MEM_FREE_KB=$(($MIN_MEM_FREE_GB*1000000))
 
 echo_mem_warn() {
