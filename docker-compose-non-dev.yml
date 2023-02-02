@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 # x-superset-image: &superset-image apache/superset:${TAG:-latest-dev}
-x-superset-image: &superset-image superset/ssk:${TAG:-latest-dev}
+x-superset-image: &superset-image heheshang/superset:${TAG:-latest}
 x-superset-depends-on: &superset-depends-on
   - db
   - redis
@@ -39,7 +39,7 @@ services:
     container_name: superset_db
     restart: unless-stopped
     volumes:
-      - db_home:/var/lib/postgresql/data
+      - db_home:/opt/soft/postgresql/data
 
   superset:
     env_file: docker/.env-non-dev
@@ -49,7 +49,7 @@ services:
     user: "root"
     restart: unless-stopped
     ports:
-      - 28088:8088
+      - 9999:8088
     depends_on: *superset-depends-on
     volumes: *superset-volumes
 
