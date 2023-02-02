@@ -21,6 +21,13 @@
 ARG PY_VER=3.8.12
 FROM python:${PY_VER} AS superset-py
 
+RUN sed -i s@/deb.debian.org/@/mirrors.aliyun.com/@g /etc/apt/sources.list
+RUN cat /etc/apt/sources.list
+RUN apt-get clean
+RUN pip install -U pip
+RUN pip config set global.index-url http://mirrors.aliyun.com/pypi/simple
+RUN pip config set install.trusted-host mirrors.aliyun.com
+
 RUN mkdir /app \
         && apt-get update -y \
         && apt-get install -y --no-install-recommends \
@@ -131,6 +138,9 @@ ARG FIREFOX_VERSION=88.0
 COPY ./requirements/*.txt ./docker/requirements-*.txt/ /app/requirements/
 
 USER root
+
+
+
 
 RUN apt-get update -y \
     && apt-get install -y --no-install-recommends libnss3 libdbus-glib-1-2 libgtk-3-0 libx11-xcb1
