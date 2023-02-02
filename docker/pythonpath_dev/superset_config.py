@@ -80,32 +80,110 @@ CACHE_CONFIG = {
 DATA_CACHE_CONFIG = CACHE_CONFIG
 
 
-class CeleryConfig(object):
-    BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_CELERY_DB}"
-    CELERY_IMPORTS = ("superset.sql_lab",)
-    CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_RESULTS_DB}"
-    CELERYD_LOG_LEVEL = "DEBUG"
-    CELERYD_PREFETCH_MULTIPLIER = 1
-    CELERY_ACKS_LATE = False
-    CELERYBEAT_SCHEDULE = {
-        "reports.scheduler": {
-            "task": "reports.scheduler",
-            "schedule": crontab(minute="*", hour="*"),
-        },
-        "reports.prune_log": {
-            "task": "reports.prune_log",
-            "schedule": crontab(minute=10, hour=0),
-        },
-    }
+# class CeleryConfig(object):
+#     BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_CELERY_DB}"
+#     CELERY_IMPORTS = ("superset.sql_lab",)
+#     CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_RESULTS_DB}"
+#     CELERYD_LOG_LEVEL = "DEBUG"
+#     CELERYD_PREFETCH_MULTIPLIER = 1
+#     CELERY_ACKS_LATE = False
+#     CELERYBEAT_SCHEDULE = {
+#         "reports.scheduler": {
+#             "task": "reports.scheduler",
+#             "schedule": crontab(minute="*", hour="*"),
+#         },
+#         "reports.prune_log": {
+#             "task": "reports.prune_log",
+#             "schedule": crontab(minute=10, hour=0),
+#         },
+#     }
 
 
-CELERY_CONFIG = CeleryConfig
+# CELERY_CONFIG = CeleryConfig
 
 FEATURE_FLAGS = {"ALERT_REPORTS": True}
-ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
-WEBDRIVER_BASEURL = "http://superset:8088/"
-# The base URL for the email report hyperlinks.
-WEBDRIVER_BASEURL_USER_FRIENDLY = WEBDRIVER_BASEURL
+ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
+# WEBDRIVER_BASEURL = "http://superset:8088/"
+# # The base URL for the email report hyperlinks.
+# WEBDRIVER_BASEURL_USER_FRIENDLY = WEBDRIVER_BASEURL
+
+
+class CeleryConfig:
+    broker_url = 'redis://%s:%s/0' % (REDIS_HOST, REDIS_PORT)
+    imports = ('superset.sql_lab', "superset.tasks", "superset.tasks.thumbnails", )
+    result_backend = 'redis://%s:%s/0' % (REDIS_HOST, REDIS_PORT)
+    worker_prefetch_multiplier = 10
+    task_acks_late = True
+    task_annotations = {
+        'sql_lab.get_sql_results': {
+            'rate_limit': '100/s',
+        },
+        'email_reports.send': {
+            'rate_limit': '1/s',
+            'time_limit': 600,
+            'soft_time_limit': 600,
+            'ignore_result': True,
+        },
+    }
+    beat_schedule = {
+        'reports.scheduler': {
+            'task': 'reports.scheduler',
+            'schedule': crontab(minute='*', hour='*'),
+        },
+        'reports.prune_log': {
+            'task': 'reports.prune_log',
+            'schedule': crontab(minute=0, hour=0),
+        },
+    }
+CELERY_CONFIG = CeleryConfig
+
+SCREENSHOT_LOCATE_WAIT = 100
+SCREENSHOT_LOAD_WAIT = 600
+
+# Slack configuration
+SLACK_API_TOKEN = "xoxb-"
+
+# Email configuration
+SMTP_HOST = "smtp.163.com" # change to your host
+SMTP_PORT = 25 # your port, e.g. 587
+SMTP_STARTTLS = False # if your SMTP server supports TLS
+SMTP_SSL_SERVER_AUTH = False # If your using an SMTP server with a valid certificate
+SMTP_SSL = False
+SMTP_USER = "shang.shi.kun@163.com" # use the empty string "" if using an unauthenticated SMTP server
+SMTP_PASSWORD = "BDBGLEALYBDWIUKH" # use the empty string "" if using an unauthenticated SMTP server
+SMTP_MAIL_FROM = "shang.shi.kun@163.com"
+EMAIL_REPORTS_SUBJECT_PREFIX = "[Superset] " # optional - overwrites default value in config.py of "[Report] "
+
+# WebDriver configuration
+# If you use Firefox, you can stick with default values
+# If you use Chrome, then add the following WEBDRIVER_TYPE and WEBDRIVER_OPTION_ARGS
+# WEBDRIVER_TYPE = "chrome"
+# WEBDRIVER_OPTION_ARGS = [
+#     "--force-device-scale-factor=2.0",
+#     "--high-dpi-support=2.0",
+#     "--headless",
+#     "--disable-gpu",
+#     "--disable-dev-shm-usage",
+#     "--no-sandbox",
+#     "--disable-setuid-sandbox",
+#     "--disable-extensions",
+# ]
+
+WEBDRIVER_TYPE = "firefox"
+
+# Window size - this will impact the rendering of the data
+WEBDRIVER_WINDOW = {
+    "dashboard": (1600, 2000),
+    "slice": (3000, 1200),
+    "pixel_density": 1,
+}
+
+# This is for internal use, you can keep http
+WEBDRIVER_BASEURL = "http://superset:8088"
+# This is the link sent to the recipient. Change to your domain, e.g. https://superset.mydomain.com
+WEBDRIVER_BASEURL_USER_FRIENDLY = "http://localhost:8088"
+
+
 
 SQLLAB_CTAS_NO_LIMIT = True
 
