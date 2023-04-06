@@ -15,6 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 from typing import Any, Dict, List, Set, Tuple
+import logging
 
 from marshmallow import Schema
 from sqlalchemy.orm import Session
@@ -44,7 +45,7 @@ from superset.datasets.schemas import ImportV1DatasetSchema
 from superset.models.dashboard import dashboard_slices
 from superset.utils.core import get_example_default_schema
 from superset.utils.database import get_example_database
-
+logger = logging.getLogger(__name__)
 
 class ImportExamplesCommand(ImportModelsCommand):
 
@@ -106,6 +107,7 @@ class ImportExamplesCommand(ImportModelsCommand):
         examples_db = get_example_database()
         dataset_info: Dict[str, Dict[str, Any]] = {}
         for file_name, config in configs.items():
+            logger.info(f"Importing dataset file_name {file_name} config {config}")
             if file_name.startswith("datasets/"):
                 # find the ID of the corresponding database
                 if config["database_uuid"] not in database_ids:

@@ -493,6 +493,10 @@ if (isDevMode) {
       logging: 'error',
     },
     static: path.join(process.cwd(), '../static/assets'),
+    port: 28088,
+    host: '0.0.0.0',
+    allowedHosts: 'all',
+
   };
 }
 

@@ -19,6 +19,7 @@
 import _thread
 import collections
 import decimal
+from email.header import make_header
 import errno
 import json
 import logging
@@ -942,8 +943,9 @@ def send_email_smtp(  # pylint: disable=invalid-name,too-many-arguments,too-many
             msg.attach(
                 MIMEApplication(
                     f.read(),
-                    Content_Disposition="attachment; filename='%s'" % basename,
-                    Name=basename,
+                    Content_Disposition="attachment; filename='%s'" % make_header([(basename, 'UTF-8')]).encode('UTF-8'),
+                    Name=make_header([(basename, 'UTF-8')]).encode('UTF-8'),
+
                 )
             )
 
@@ -951,7 +953,9 @@ def send_email_smtp(  # pylint: disable=invalid-name,too-many-arguments,too-many
     for name, body in (data or {}).items():
         msg.attach(
             MIMEApplication(
-                body, Content_Disposition="attachment; filename='%s'" % name, Name=name
+                body,
+                Content_Disposition="attachment; filename='%s'" % make_header([(name, 'UTF-8')]).encode('UTF-8'),
+                Name=make_header([(name, 'UTF-8')]).encode('UTF-8')
             )
         )
 
