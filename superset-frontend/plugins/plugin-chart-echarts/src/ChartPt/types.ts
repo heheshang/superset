@@ -16,25 +16,29 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import {
+  QueryFormData,
+  supersetTheme,
+  TimeseriesDataRecord,
+} from '@superset-ui/core';
 
-@import '~antd/lib/style/themes/index';
-@import '~antd/lib/style/mixins/index';
-@import '~antd/lib/style/core/base';
+export interface ChartPtStylesProps {
+  height: number;
+  width: number;
+  headerFontSize: keyof typeof supersetTheme.typography.sizes;
+  boldText: boolean;
+}
 
-@import '~antd/lib/style/core/iconfont';
-@import '~antd/lib/style/core/motion';
-@import '~antd/lib/style/components.less';
+interface ChartPtCustomizeProps {
+  headerText: string;
+}
 
-/*
-  Theme variables here: https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less
-*/
-@primary-color: #20a7c9;
-@info-color: #66bcfe;
-@success-color: #59c189;
-@processing-color: #66bcfe;
-@error-color: #e04355;
-@highlight-color: #e04355;
-@normal-color: #d9d9d9;
-@white: #fff;
-@black: #000;
-@root-entry-name: 'default';
+export type ChartPtQueryFormData = QueryFormData &
+  ChartPtStylesProps &
+  ChartPtCustomizeProps;
+
+export type ChartPtProps = ChartPtStylesProps &
+  ChartPtCustomizeProps & {
+    data: TimeseriesDataRecord[];
+    // add typing here for the props you pass in from transformProps.ts!
+  };

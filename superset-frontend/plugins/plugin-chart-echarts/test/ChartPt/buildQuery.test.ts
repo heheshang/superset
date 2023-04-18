@@ -16,25 +16,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import buildQuery from '../../src/ChartPt/buildQuery';
 
-@import '~antd/lib/style/themes/index';
-@import '~antd/lib/style/mixins/index';
-@import '~antd/lib/style/core/base';
+describe('ChartPt buildQuery', () => {
+  const formData = {
+    datasource: '5__table',
+    granularity_sqla: 'ds',
+    series: 'foo',
+    viz_type: 'my_chart',
+  };
 
-@import '~antd/lib/style/core/iconfont';
-@import '~antd/lib/style/core/motion';
-@import '~antd/lib/style/components.less';
-
-/*
-  Theme variables here: https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less
-*/
-@primary-color: #20a7c9;
-@info-color: #66bcfe;
-@success-color: #59c189;
-@processing-color: #66bcfe;
-@error-color: #e04355;
-@highlight-color: #e04355;
-@normal-color: #d9d9d9;
-@white: #fff;
-@black: #000;
-@root-entry-name: 'default';
+  it('should build groupby with series in form data', () => {
+    const queryContext = buildQuery(formData);
+    const [query] = queryContext.queries;
+    expect(query.columns).toEqual(['foo']);
+  });
+});
