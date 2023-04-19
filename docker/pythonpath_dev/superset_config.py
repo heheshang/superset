@@ -23,7 +23,7 @@
 import logging
 import os
 from datetime import timedelta
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from cachelib.file import FileSystemCache
 from celery.schedules import crontab
@@ -200,3 +200,8 @@ try:
     )
 except ImportError:
     logger.info("Using default Docker config...")
+
+
+# CORS Options
+ENABLE_CORS = True
+CORS_OPTIONS = {"origins": "*", "methods": "*"}
