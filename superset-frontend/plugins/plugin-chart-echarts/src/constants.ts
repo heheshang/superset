@@ -72,10 +72,10 @@ export const AreaChartExtraControlsOptions: [
   JsonValue,
   Exclude<ReactNode, null | undefined | boolean>,
 ][] = [
-  [null, t('None')],
-  [AreaChartExtraControlsValue.Stack, t('Stack')],
-  [AreaChartExtraControlsValue.Expand, t('Expand')],
-];
+    [null, t('None')],
+    [AreaChartExtraControlsValue.Stack, t('Stack')],
+    [AreaChartExtraControlsValue.Expand, t('Expand')],
+  ];
 
 export const TIMEGRAIN_TO_TIMESTAMP = {
   [TimeGranularity.HOUR]: 3600 * 1000,
