@@ -45,44 +45,42 @@ export type ChartPtProps = ChartPtStylesProps &
   };
 
 interface ChartCardData {
-  title: String,
-  value: String,
-  tooltip1: String,
-  value1: String,
-  tooltip2: String,
-  value2: String,
-  style: CSSProperties,
-
+  title: String;
+  value: String;
+  tooltip1: String;
+  value1: String;
+  tooltip2: String;
+  value2: String;
+  style: CSSProperties;
 }
 
 
 export type ChartCardProps = ChartCardData;
 
 export interface ICustomColdata {
-  Title: string,
-  Daily: string,
-  DailyDoD: string,
-  DailyYoY: string,
-  Weekly: string,
-  WeeklyWoW: string,
-  WeeklyYoY: string,
-  Monthly: string,
-  MonthlyMoM: string,
-  MonthlyYoY: string,
-  Quarterly: string,
-  QuarterlyQoQ: string,
-  QuarterlyYoY: string,
-  Yearly: string,
-  YearlyYoY: string,
-  DailyDoDToolTip: string,
-  DailyYoYToolTip: string,
-  WeeklyWoWToolTip: string,
-  WeeklyYoYToolTip: string,
-  MonthlyMoMToolTip: string,
-  MonthlyYoYToolTip: string,
-  QuarterlyQoQToolTip: string,
-  QuarterlyYoYToolTip: string,
-  YearlyYoYToolTip: string,
-
-}
+  Title: string;
+  Daily: string;
+  DailyDoD: string;
+  DailyYoY: string;
+  Weekly: string;
+  WeeklyWoW: string;
+  WeeklyYoY: string;
+  Monthly: string;
+  MonthlyMoM: string;
+  MonthlyYoY: string;
+  Quarterly: string;
+  QuarterlyQoQ: string;
+  QuarterlyYoY: string;
+  Yearly: string;
+  YearlyYoY: string;
+  DailyDoDToolTip: string;
+  DailyYoYToolTip: string;
+  WeeklyWoWToolTip: string;
+  WeeklyYoYToolTip: string;
+  MonthlyMoMToolTip: string;
+  MonthlyYoYToolTip: string;
+  QuarterlyQoQToolTip: string;
+  QuarterlyYoYToolTip: string;
+  YearlyYoYToolTip: string;
+};
 export type CustomColProps = ICustomColdata & ChartPtProps;
