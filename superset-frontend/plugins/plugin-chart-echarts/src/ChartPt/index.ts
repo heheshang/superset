@@ -16,11 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { t, ChartMetadata, ChartPlugin } from '@superset-ui/core';
+import { t, ChartMetadata, ChartPlugin, Behavior, AnnotationType, isFeatureEnabled, FeatureFlag } from '@superset-ui/core';
 import buildQuery from './buildQuery';
 import controlPanel from './controlPanel';
 import transformProps from './transformProps';
-import thumbnail from './images/thumbnail.png';
+import chartPt from './images/chartPt.png';
 
 export default class ChartPtPlugin extends ChartPlugin {
   /**
@@ -35,9 +35,28 @@ export default class ChartPtPlugin extends ChartPlugin {
    */
   constructor() {
     const metadata = new ChartMetadata({
+      behaviors: [Behavior.INTERACTIVE_CHART],
+      category: t('Evolution'),
+      credits: ['https://echarts.apache.org'],
       description: 'Chart Pt',
-      name: t('Chart-Pt'),
-      thumbnail,
+      supportedAnnotationTypes: [
+        AnnotationType.Event,
+        AnnotationType.Formula,
+        AnnotationType.Interval,
+        AnnotationType.Timeseries,
+      ],
+      name: isFeatureEnabled(FeatureFlag.GENERIC_CHART_AXES)
+        ? t('Generic Chart')
+        : t('Time-series Chart'),
+      tags: [
+        t('Advanced-Analytics'),
+        t('Aesthetic'),
+        t('Line'),
+        t('Predictive'),
+        t('Time'),
+        t('Transformable'),
+      ],
+      thumbnail: chartPt,
     });
 
     super({

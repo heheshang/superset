@@ -13,6 +13,12 @@ import {
 } from '../styles/css';
 
 const { Title } = Typography;
+const date =
+  new Date().getFullYear() +
+  '/' +
+  (new Date().getUTCMonth() + 1) +
+  '/' +
+  new Date().getDate();
 
 export function Col1(props: ChartPtProps) {
   return (
@@ -29,7 +35,7 @@ export function Col1(props: ChartPtProps) {
         <Card.Grid style={dailyGridStyle}>
           <Col>
             <Title level={4} style={{ textAlign: 'center', marginTop: 'auto' }}>
-              2023/04/08
+              {date}
             </Title>
             <Row>
               <span style={gridStyle2}>DoD</span>
@@ -41,10 +47,10 @@ export function Col1(props: ChartPtProps) {
         <Card.Grid style={weeklyGridStyle}>
           <Col>
             <Title level={4} style={{ textAlign: 'center', marginTop: 'auto' }}>
-              2023/04/08
+              WTD
             </Title>
             <Row>
-              <span style={gridStyle2}>DoD</span>
+              <span style={gridStyle2}>WoW</span>
               <span style={gridStyle3}>YoY</span>
             </Row>
           </Col>
@@ -53,10 +59,10 @@ export function Col1(props: ChartPtProps) {
         <Card.Grid style={monthlyGridStyle}>
           <Col>
             <Title level={4} style={{ textAlign: 'center', marginTop: 'auto' }}>
-              2023/04/08
+              MTD
             </Title>
             <Row>
-              <span style={gridStyle2}>DoD</span>
+              <span style={gridStyle2}>MoM</span>
               <span style={gridStyle3}>YoY</span>
             </Row>
           </Col>
@@ -65,10 +71,10 @@ export function Col1(props: ChartPtProps) {
         <Card.Grid style={quorterGridStyle}>
           <Col>
             <Title level={4} style={{ textAlign: 'center', marginTop: 'auto' }}>
-              2023/04/08
+              QTD
             </Title>
             <Row>
-              <span style={gridStyle2}>DoD</span>
+              <span style={gridStyle2}>QoQ</span>
               <span style={gridStyle3}>YoY</span>
             </Row>
           </Col>
@@ -76,10 +82,10 @@ export function Col1(props: ChartPtProps) {
         <Card.Grid style={yearlyGridStyle}>
           <Col>
             <Title level={4} style={{ textAlign: 'center', marginTop: 'auto' }}>
-              2023/04/08
+              YTD
             </Title>
             <Row>
-              <span style={gridStyle2}>DoD</span>
+              {/* <span style={gridStyle2}>DoD</span> */}
               <span style={gridStyle3}>YoY</span>
             </Row>
           </Col>

@@ -19,17 +19,13 @@
 import React, { useEffect, createRef } from 'react';
 import { Card, Row, Col, Tabs, Space, Typography } from 'antd';
 import { ChartPtProps } from './types';
-import { Col1 } from './compent/Col1';
-import { Col2 } from './compent/Col2';
-import { Col3 } from './compent/Col3';
-import { Col4 } from './compent/Col4';
-import { Col5 } from './compent/Col5';
-import { Col6 } from './compent/Col6';
 import { DailyChartContent } from './chartCompent/DailyChart';
 import { WeeklyChartContent } from './chartCompent/WeeklyChart';
 import { MonthlyChartContent } from './chartCompent/MonthlyChart';
 import { QuorterChartContent } from './chartCompent/QuorterChart';
 import { YearlyChartContent } from './chartCompent/YearlyChart';
+import CustomCol from './compent/CustomCol';
+import customColList from './util/constant';
 
 const { Text } = Typography;
 // The following Styles component is a <div> element, which has been styled using Emotion
@@ -62,14 +58,6 @@ const { Text } = Typography;
 //   }
 // `;
 
-/**
- * ******************* WHAT YOU CAN BUILD HERE *******************
- *  In essence, a chart is given a few key ingredients to work with:
- *  * Data: provided via `props.data`
- *  * A DOM element
- *  * FormData (your controls!) provided as props by transformProps.ts
- */
-
 export default function ChartPt(props: ChartPtProps) {
   // height and width are the height and width of the DOM element as it exists in the dashboard.
   // There is also a `data` prop, which is, of course, your DATA 🎉
@@ -77,6 +65,8 @@ export default function ChartPt(props: ChartPtProps) {
 
   const rootElem = createRef<HTMLDivElement>();
 
+
+  
   // Often, you just want to get a hold of the DOM and go nuts.
   // Here, you can do that with createRef, and the useEffect hook.
   useEffect(() => {
@@ -88,11 +78,8 @@ export default function ChartPt(props: ChartPtProps) {
 
   return (
     <div>
-      {/* <Divider /> */}
-      {/* <Col style={{ textAlign: "end" }}> */}
       <Card
         style={{ width, height }}
-        // title="Card title"
         title={'\u00A0'}
         extra={
           <div>
@@ -111,92 +98,70 @@ export default function ChartPt(props: ChartPtProps) {
           </div>
         }
       >
-        {/* </Col> */}
-        {/* <Divider /> */}
         <Row>
-          <Col span={4}>
-            <Col1
-              height={100}
-              width={0}
-              headerFontSize="s"
-              boldText={false}
-              headerText=""
-              data={data}
-            />
-          </Col>
-          <Col span={4}>
-            <Col2
-              height={100}
-              width={0}
-              headerFontSize="s"
-              boldText={false}
-              headerText=""
-              data={data}
-            />
-          </Col>
-          <Col span={4}>
-            <Col3
-              height={100}
-              width={0}
-              headerFontSize="s"
-              boldText={false}
-              headerText=""
-              data={data}
-            />
-          </Col>
-          <Col span={4}>
-            <Col4
-              height={100}
-              width={0}
-              headerFontSize="s"
-              boldText={false}
-              headerText=""
-              data={data}
-            />
-          </Col>
-          <Col span={4}>
-            <Col5
-              height={100}
-              width={0}
-              headerFontSize="s"
-              boldText={false}
-              headerText=""
-              data={data}
-            />
-          </Col>
-          <Col span={4}>
-            <Col6
-              height={100}
-              width={0}
-              headerFontSize="s"
-              boldText={false}
-              headerText=""
-              data={data}
-            />
-          </Col>
+          {customColList.map(config => (
+            <Col span={4}>
+              <CustomCol
+                Title={config.Title}
+                Daily={config.Daily}
+                DailyDoD={config.DailyDoD}
+                DailyYoY={config.DailyYoY}
+                Weekly={config.Weekly}
+                WeeklyWoW={config.WeeklyWoW}
+                WeeklyYoY={config.WeeklyYoY}
+                Monthly={config.Monthly}
+                MonthlyMoM={config.MonthlyMoM}
+                MonthlyYoY={config.MonthlyYoY}
+                Quarterly={config.Quarterly}
+                QuarterlyQoQ={config.QuarterlyQoQ}
+                QuarterlyYoY={config.QuarterlyYoY}
+                Yearly={config.Yearly}
+                YearlyYoY={config.YearlyYoY}
+                DailyDoDToolTip={config.DailyDoDToolTip}
+                DailyYoYToolTip={config.DailyYoYToolTip}
+                WeeklyWoWToolTip={config.WeeklyWoWToolTip}
+                WeeklyYoYToolTip={config.WeeklyYoYToolTip}
+                MonthlyMoMToolTip={config.MonthlyMoMToolTip}
+                MonthlyYoYToolTip={config.MonthlyYoYToolTip}
+                QuarterlyQoQToolTip={config.QuarterlyQoQToolTip}
+                QuarterlyYoYToolTip={config.QuarterlyYoYToolTip}
+                YearlyYoYToolTip={config.YearlyYoYToolTip}
+                height={100}
+                width={0}
+                headerFontSize="s"
+                boldText={false}
+                headerText=""
+                data={data}
+              />
+            </Col>
+          ))}
         </Row>
         <Row>
           <Tabs style={{ marginTop: 10 }}>
             <Tabs.TabPane tab="Daily" key="Daily">
-              {/* <Row> */}
               <Space direction="horizontal" align="center" wrap={false}>
-                {/* <Col> */}
-                <div style={{ height: 300, width: 500 }}>
-                  <DailyChartContent />
-                </div>
-                {/* </Col> */}
-                {/* <Col> */}
-                <div style={{ height: 300, width: 500 }}>
-                  <DailyChartContent />
-                </div>
-                {/* </Col> */}
-                {/* <Col> */}
-                <div style={{ height: 300, width: 500 }}>
-                  <DailyChartContent />
-                </div>
-                {/* </Col> */}
+                {/* <div style={{ height: 300, width: 500 }}> */}
+                <DailyChartContent
+                  height={300}
+                  width={500}
+                  echartOptions={{}}
+                />
+                {/* </div> */}
+                {/* <div style={{ height: 300, width: 500 }}> */}
+                <DailyChartContent
+                  height={300}
+                  width={500}
+                  echartOptions={{}}
+                />
+                {/* </div> */}
+                {/* <div style={{ height: 300, width: 500 }}> */}
+                <DailyChartContent
+                  height={300}
+                  width={500}
+                  echartOptions={{}}
+                />
+                {/* </div> */}
               </Space>
-              {/* </Row> */}
             </Tabs.TabPane>
 
             <Tabs.TabPane tab="WTD" key="WTD">

@@ -12,27 +12,46 @@ import {
   cardBodyBackGroundColor,
 } from '../styles/css';
 
+import {
+  cancelAmountTitle,
+  cancelAmountDaily,
+  cancelAmountDailyDoD,
+  cancelAmountDailyYoY,
+  cancelAmountWeekly,
+  cancelAmountWeeklyWoW,
+  cancelAmountWeeklyYoY,
+  cancelAmountMonthly,
+  cancelAmountMonthlyMoM,
+  cancelAmountMonthlyYoY,
+  cancelAmountQuarterly,
+  cancelAmountQuarterlyQoQ,
+  cancelAmountQuarterlyYoY,
+  cancelAmountYearly,
+  cancelAmountYearlyYoY,
+} from '../util/constant';
+
 const { Title } = Typography;
 
 export function Col5(props: ChartPtProps) {
   return (
     <Card
       key="Col5-card"
-      title="Cancel Amount(%)"
+      title={cancelAmountTitle}
       bordered={false}
       hoverable
       bodyStyle={{ backgroundColor: cardBodyBackGroundColor }}
+      headStyle={{ textAlign: 'center' }}
       style={{ width: '100%', textAlign: 'center' }}
     >
       <Space direction="vertical" size="small" style={{ display: 'flex' }}>
         <Card.Grid style={dailyGridStyle}>
           <Col>
             <Title level={4} style={{ textAlign: 'center', marginTop: 'auto' }}>
-              2023/04/08
+              {cancelAmountDaily}
             </Title>
             <Row>
-              <span style={gridStyle2}>DoD</span>
-              <span style={gridStyle3}>YoY</span>
+              <span style={gridStyle2}>{cancelAmountDailyDoD}</span>
+              <span style={gridStyle3}>{cancelAmountDailyYoY}</span>
             </Row>
           </Col>
         </Card.Grid>
@@ -40,11 +59,11 @@ export function Col5(props: ChartPtProps) {
         <Card.Grid style={weeklyGridStyle}>
           <Col>
             <Title level={4} style={{ textAlign: 'center', marginTop: 'auto' }}>
-              2023/04/08
+              {cancelAmountWeekly}
             </Title>
             <Row>
-              <span style={gridStyle2}>DoD</span>
-              <span style={gridStyle3}>YoY</span>
+              <span style={gridStyle2}>{cancelAmountWeeklyWoW}</span>
+              <span style={gridStyle3}>{cancelAmountWeeklyYoY}</span>
             </Row>
           </Col>
         </Card.Grid>
@@ -52,11 +71,11 @@ export function Col5(props: ChartPtProps) {
         <Card.Grid style={monthlyGridStyle}>
           <Col>
             <Title level={4} style={{ textAlign: 'center', marginTop: 'auto' }}>
-              2023/04/08
+              {cancelAmountMonthly}
             </Title>
             <Row>
-              <span style={gridStyle2}>DoD</span>
-              <span style={gridStyle3}>YoY</span>
+              <span style={gridStyle2}>{cancelAmountMonthlyMoM}</span>
+              <span style={gridStyle3}>{cancelAmountMonthlyYoY}</span>
             </Row>
           </Col>
         </Card.Grid>
@@ -64,22 +83,22 @@ export function Col5(props: ChartPtProps) {
         <Card.Grid style={quorterGridStyle}>
           <Col>
             <Title level={4} style={{ textAlign: 'center', marginTop: 'auto' }}>
-              2023/04/08
+              {cancelAmountQuarterly}
             </Title>
             <Row>
-              <span style={gridStyle2}>DoD</span>
-              <span style={gridStyle3}>YoY</span>
+              <span style={gridStyle2}>{cancelAmountQuarterlyQoQ}</span>
+              <span style={gridStyle3}>{cancelAmountQuarterlyYoY}</span>
             </Row>
           </Col>
         </Card.Grid>
         <Card.Grid style={yearlyGridStyle}>
           <Col>
             <Title level={4} style={{ textAlign: 'center', marginTop: 'auto' }}>
-              2023/04/08
+              {cancelAmountYearly}
             </Title>
             <Row>
-              <span style={gridStyle2}>DoD</span>
-              <span style={gridStyle3}>YoY</span>
+              <span style={gridStyle2}>-</span>
+              <span style={gridStyle3}>{cancelAmountYearlyYoY}</span>
             </Row>
           </Col>
         </Card.Grid>

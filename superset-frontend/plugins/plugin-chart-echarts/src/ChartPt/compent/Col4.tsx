@@ -12,27 +12,46 @@ import {
   cardBodyBackGroundColor,
 } from '../styles/css';
 
+import {
+  conversionTitle,
+  conversionDaily,
+  conversionDailyDoD,
+  conversionDailyYoY,
+  conversionWeekly,
+  conversionWeeklyWoW,
+  conversionWeeklyYoY,
+  conversionMonthly,
+  conversionMonthlyMoM,
+  conversionMonthlyYoY,
+  conversionQuarterly,
+  conversionQuarterlyQoQ,
+  conversionQuarterlyYoY,
+  conversionYearly,
+  conversionYearlyYoY,
+} from '../util/constant';
+
 const { Title } = Typography;
 
 export function Col4(props: ChartPtProps) {
   return (
     <Card
       key="Col4-card"
-      title="Conversion"
+      title={conversionTitle}
       bordered={false}
       hoverable
       bodyStyle={{ backgroundColor: cardBodyBackGroundColor }}
+      headStyle={{ textAlign: 'center' }}
       style={{ width: '100%', textAlign: 'center' }}
     >
       <Space direction="vertical" size="small" style={{ display: 'flex' }}>
         <Card.Grid style={dailyGridStyle}>
           <Col>
             <Title level={4} style={{ textAlign: 'center', marginTop: 'auto' }}>
-              2023/04/08
+              {conversionDaily}
             </Title>
             <Row>
-              <span style={gridStyle2}>DoD</span>
-              <span style={gridStyle3}>YoY</span>
+              <span style={gridStyle2}>{conversionDailyDoD}</span>
+              <span style={gridStyle3}>{conversionDailyYoY}</span>
             </Row>
           </Col>
         </Card.Grid>
@@ -40,11 +59,11 @@ export function Col4(props: ChartPtProps) {
         <Card.Grid style={weeklyGridStyle}>
           <Col>
             <Title level={4} style={{ textAlign: 'center', marginTop: 'auto' }}>
-              2023/04/08
+              {conversionWeekly}
             </Title>
             <Row>
-              <span style={gridStyle2}>DoD</span>
-              <span style={gridStyle3}>YoY</span>
+              <span style={gridStyle2}>{conversionWeeklyWoW}</span>
+              <span style={gridStyle3}>{conversionWeeklyYoY}</span>
             </Row>
           </Col>
         </Card.Grid>
@@ -52,11 +71,11 @@ export function Col4(props: ChartPtProps) {
         <Card.Grid style={monthlyGridStyle}>
           <Col>
             <Title level={4} style={{ textAlign: 'center', marginTop: 'auto' }}>
-              2023/04/08
+              {conversionMonthly}
             </Title>
             <Row>
-              <span style={gridStyle2}>DoD</span>
-              <span style={gridStyle3}>YoY</span>
+              <span style={gridStyle2}>{conversionMonthlyMoM}</span>
+              <span style={gridStyle3}>{conversionMonthlyYoY}</span>
             </Row>
           </Col>
         </Card.Grid>
@@ -64,22 +83,22 @@ export function Col4(props: ChartPtProps) {
         <Card.Grid style={quorterGridStyle}>
           <Col>
             <Title level={4} style={{ textAlign: 'center', marginTop: 'auto' }}>
-              2023/04/08
+              {conversionQuarterly}
             </Title>
             <Row>
-              <span style={gridStyle2}>DoD</span>
-              <span style={gridStyle3}>YoY</span>
+              <span style={gridStyle2}>{conversionQuarterlyQoQ}</span>
+              <span style={gridStyle3}>{conversionQuarterlyYoY}</span>
             </Row>
           </Col>
         </Card.Grid>
         <Card.Grid style={yearlyGridStyle}>
           <Col>
             <Title level={4} style={{ textAlign: 'center', marginTop: 'auto' }}>
-              2023/04/08
+              {conversionYearly}
             </Title>
             <Row>
-              <span style={gridStyle2}>DoD</span>
-              <span style={gridStyle3}>YoY</span>
+              <span style={gridStyle2}>-</span>
+              <span style={gridStyle3}>{conversionYearlyYoY}</span>
             </Row>
           </Col>
         </Card.Grid>

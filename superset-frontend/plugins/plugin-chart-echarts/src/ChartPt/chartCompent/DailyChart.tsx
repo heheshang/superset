@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { EChartsOption } from 'echarts';
-import { Charts } from './Charts';
+import Echart from '../../components/Echart';
+import { EchartsProps } from '../../types';
 
-const DailyChartContent: React.FC = () => {
+const DailyChartContent: React.FC<EchartsProps> = props => {
   // let [options, setOptions] = useState<EChartsOption>({});
   const [options, setOptions] = useState<EChartsOption>({});
   useEffect(() => {
@@ -82,6 +83,8 @@ const DailyChartContent: React.FC = () => {
       ],
     });
   }, []);
-  return <Charts options={options} />;
+  return (
+    <Echart echartOptions={options} height={props.height} width={props.width} />
+  );
 };
 export { DailyChartContent };

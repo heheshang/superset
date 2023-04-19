@@ -21,6 +21,7 @@ import {
   supersetTheme,
   TimeseriesDataRecord,
 } from '@superset-ui/core';
+import { CSSProperties } from 'react';
 
 export interface ChartPtStylesProps {
   height: number;
@@ -42,3 +43,46 @@ export type ChartPtProps = ChartPtStylesProps &
     data: TimeseriesDataRecord[];
     // add typing here for the props you pass in from transformProps.ts!
   };
+
+interface ChartCardData {
+  title: String,
+  value: String,
+  tooltip1: String,
+  value1: String,
+  tooltip2: String,
+  value2: String,
+  style: CSSProperties,
+
+}
+
+
+export type ChartCardProps = ChartCardData;
+
+export interface ICustomColdata {
+  Title: string,
+  Daily: string,
+  DailyDoD: string,
+  DailyYoY: string,
+  Weekly: string,
+  WeeklyWoW: string,
+  WeeklyYoY: string,
+  Monthly: string,
+  MonthlyMoM: string,
+  MonthlyYoY: string,
+  Quarterly: string,
+  QuarterlyQoQ: string,
+  QuarterlyYoY: string,
+  Yearly: string,
+  YearlyYoY: string,
+  DailyDoDToolTip: string,
+  DailyYoYToolTip: string,
+  WeeklyWoWToolTip: string,
+  WeeklyYoYToolTip: string,
+  MonthlyMoMToolTip: string,
+  MonthlyYoYToolTip: string,
+  QuarterlyQoQToolTip: string,
+  QuarterlyYoYToolTip: string,
+  YearlyYoYToolTip: string,
+
+}
+export type CustomColProps = ICustomColdata & ChartPtProps;
