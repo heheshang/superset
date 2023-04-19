@@ -240,7 +240,8 @@ const customColList: ICustomColdata[] = [{
     QuarterlyYoYToolTip: conversionQuarterlyYoYToolTip,
     YearlyYoYToolTip: conversionYearlyYoYToolTip,
 
-}, {
+},
+{
     Title: cancelAmountTitle,
     Daily: cancelAmountDaily,
     DailyDoD: cancelAmountDailyDoD,
@@ -265,7 +266,8 @@ const customColList: ICustomColdata[] = [{
     QuarterlyQoQToolTip: cancelAmountQuarterlyQoQToolTip,
     QuarterlyYoYToolTip: cancelAmountQuarterlyYoYToolTip,
     YearlyYoYToolTip: cancelAmountYearlyYoYToolTip,
-}, {
+},
+{
     Title: returnAmountTitle,
     Daily: returnAmountDaily,
     DailyDoD: returnAmountDailyDoD,
