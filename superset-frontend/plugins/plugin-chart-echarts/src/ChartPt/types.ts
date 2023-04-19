@@ -54,7 +54,6 @@ interface ChartCardData {
   style: CSSProperties;
 }
 
-
 export type ChartCardProps = ChartCardData;
 
 export interface ICustomColdata {
@@ -82,5 +81,5 @@ export interface ICustomColdata {
   QuarterlyQoQToolTip: string;
   QuarterlyYoYToolTip: string;
   YearlyYoYToolTip: string;
-};
+}
 export type CustomColProps = ICustomColdata & ChartPtProps;
