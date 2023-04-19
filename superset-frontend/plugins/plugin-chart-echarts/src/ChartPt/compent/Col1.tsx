@@ -13,12 +13,9 @@ import {
 } from '../styles/css';
 
 const { Title } = Typography;
-const date =
-  new Date().getFullYear() +
-  '/' +
-  (new Date().getUTCMonth() + 1) +
-  '/' +
-  new Date().getDate();
+const date = `${new Date().getFullYear()}/${
+  new Date().getUTCMonth() + 1
+}/${new Date().getDate()}`;
 
 export function Col1(props: ChartPtProps) {
   return (

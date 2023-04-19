@@ -16,7 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { t, ChartMetadata, ChartPlugin, Behavior, AnnotationType, isFeatureEnabled, FeatureFlag } from '@superset-ui/core';
+import {
+  t,
+  ChartMetadata,
+  ChartPlugin,
+  Behavior,
+  AnnotationType,
+  isFeatureEnabled,
+  FeatureFlag,
+} from '@superset-ui/core';
 import buildQuery from './buildQuery';
 import controlPanel from './controlPanel';
 import transformProps from './transformProps';

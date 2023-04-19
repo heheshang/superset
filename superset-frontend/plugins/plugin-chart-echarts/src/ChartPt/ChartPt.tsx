@@ -64,8 +64,6 @@ export default function ChartPt(props: ChartPtProps) {
   const { data, height, width } = props;
 
   const rootElem = createRef<HTMLDivElement>();
-
-
   
   // Often, you just want to get a hold of the DOM and go nuts.
   // Here, you can do that with createRef, and the useEffect hook.
