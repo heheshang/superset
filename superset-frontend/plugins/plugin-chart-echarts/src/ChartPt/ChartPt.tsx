@@ -62,9 +62,7 @@ export default function ChartPt(props: ChartPtProps) {
   // height and width are the height and width of the DOM element as it exists in the dashboard.
   // There is also a `data` prop, which is, of course, your DATA 🎉
   const { data, height, width } = props;
-
   const rootElem = createRef<HTMLDivElement>();
-  
   // Often, you just want to get a hold of the DOM and go nuts.
   // Here, you can do that with createRef, and the useEffect hook.
   useEffect(() => {
