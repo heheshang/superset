@@ -17,9 +17,8 @@
  * under the License.
  */
 import React, { useEffect, createRef } from 'react';
-import { Card, Row, Col, Divider, Tabs, Space, Typography } from 'antd';
-import { styled } from '@superset-ui/core';
-import { ChartPtProps, ChartPtStylesProps } from './types';
+import { Card, Row, Col, Tabs, Space, Typography } from 'antd';
+import { ChartPtProps } from './types';
 import { Col1 } from './compent/Col1';
 import { Col2 } from './compent/Col2';
 import { Col3 } from './compent/Col3';
@@ -31,7 +30,8 @@ import { WeeklyChartContent } from './chartCompent/WeeklyChart';
 import { MonthlyChartContent } from './chartCompent/MonthlyChart';
 import { QuorterChartContent } from './chartCompent/QuorterChart';
 import { YearlyChartContent } from './chartCompent/YearlyChart';
-const { Title, Text } = Typography;
+
+const { Text } = Typography;
 // The following Styles component is a <div> element, which has been styled using Emotion
 // For docs, visit https://emotion.sh/docs/styled
 
@@ -39,28 +39,28 @@ const { Title, Text } = Typography;
 // imported from @superset-ui/core. For variables available, please visit
 // https://github.com/apache-superset/superset-ui/blob/master/packages/superset-ui-core/src/style/index.ts
 
-const Styles = styled.div<ChartPtStylesProps>`
-  background-color: ${({ theme }) => theme.colors.secondary.light2};
-  padding: ${({ theme }) => theme.gridUnit * 4}px;
-  border-radius: ${({ theme }) => theme.gridUnit * 2}px;
-  height: ${({ height }) => height}px;
-  width: ${({ width }) => width}px;
+// const Styles = styled.div<ChartPtStylesProps>`
+//   background-color: ${({ theme }) => theme.colors.secondary.light2};
+//   padding: ${({ theme }) => theme.gridUnit * 4}px;
+//   border-radius: ${({ theme }) => theme.gridUnit * 2}px;
+//   height: ${({ height }) => height}px;
+//   width: ${({ width }) => width}px;
 
-  h3 {
-    /* You can use your props to control CSS! */
-    margin-top: 0;
-    margin-bottom: ${({ theme }) => theme.gridUnit * 3}px;
-    font-size: ${({ theme, headerFontSize }) =>
-      theme.typography.sizes[headerFontSize]}px;
-    font-weight: ${({ theme, boldText }) =>
-      theme.typography.weights[boldText ? 'bold' : 'normal']};
-  }
+//   h3 {
+//     /* You can use your props to control CSS! */
+//     margin-top: 0;
+//     margin-bottom: ${({ theme }) => theme.gridUnit * 3}px;
+//     font-size: ${({ theme, headerFontSize }) =>
+//       theme.typography.sizes[headerFontSize]}px;
+//     font-weight: ${({ theme, boldText }) =>
+//       theme.typography.weights[boldText ? 'bold' : 'normal']};
+//   }
 
-  pre {
-    height: ${({ theme, headerFontSize, height }) =>
-      height - theme.gridUnit * 12 - theme.typography.sizes[headerFontSize]}px;
-  }
-`;
+//   pre {
+//     height: ${({ theme, headerFontSize, height }) =>
+//       height - theme.gridUnit * 12 - theme.typography.sizes[headerFontSize]}px;
+//   }
+// `;
 
 /**
  * ******************* WHAT YOU CAN BUILD HERE *******************
@@ -90,9 +90,8 @@ export default function ChartPt(props: ChartPtProps) {
     <div>
       {/* <Divider /> */}
       {/* <Col style={{ textAlign: "end" }}> */}
-
       <Card
-        style={{ width: '100%' }}
+        style={{ width, height }}
         // title="Card title"
         title={'\u00A0'}
         extra={
@@ -119,9 +118,9 @@ export default function ChartPt(props: ChartPtProps) {
             <Col1
               height={100}
               width={0}
-              headerFontSize={'s'}
+              headerFontSize="s"
               boldText={false}
-              headerText={''}
+              headerText=""
               data={data}
             />
           </Col>
@@ -129,9 +128,9 @@ export default function ChartPt(props: ChartPtProps) {
             <Col2
               height={100}
               width={0}
-              headerFontSize={'s'}
+              headerFontSize="s"
               boldText={false}
-              headerText={''}
+              headerText=""
               data={data}
             />
           </Col>
@@ -139,9 +138,9 @@ export default function ChartPt(props: ChartPtProps) {
             <Col3
               height={100}
               width={0}
-              headerFontSize={'s'}
+              headerFontSize="s"
               boldText={false}
-              headerText={''}
+              headerText=""
               data={data}
             />
           </Col>
@@ -149,9 +148,9 @@ export default function ChartPt(props: ChartPtProps) {
             <Col4
               height={100}
               width={0}
-              headerFontSize={'s'}
+              headerFontSize="s"
               boldText={false}
-              headerText={''}
+              headerText=""
               data={data}
             />
           </Col>
@@ -159,9 +158,9 @@ export default function ChartPt(props: ChartPtProps) {
             <Col5
               height={100}
               width={0}
-              headerFontSize={'s'}
+              headerFontSize="s"
               boldText={false}
-              headerText={''}
+              headerText=""
               data={data}
             />
           </Col>
@@ -169,100 +168,101 @@ export default function ChartPt(props: ChartPtProps) {
             <Col6
               height={100}
               width={0}
-              headerFontSize={'s'}
+              headerFontSize="s"
               boldText={false}
-              headerText={''}
+              headerText=""
               data={data}
             />
           </Col>
         </Row>
+        <Row>
+          <Tabs style={{ marginTop: 10 }}>
+            <Tabs.TabPane tab="Daily" key="Daily">
+              {/* <Row> */}
+              <Space direction="horizontal" align="center" wrap={false}>
+                {/* <Col> */}
+                <div style={{ height: 300, width: 500 }}>
+                  <DailyChartContent />
+                </div>
+                {/* </Col> */}
+                {/* <Col> */}
+                <div style={{ height: 300, width: 500 }}>
+                  <DailyChartContent />
+                </div>
+                {/* </Col> */}
+                {/* <Col> */}
+                <div style={{ height: 300, width: 500 }}>
+                  <DailyChartContent />
+                </div>
+                {/* </Col> */}
+              </Space>
+              {/* </Row> */}
+            </Tabs.TabPane>
+
+            <Tabs.TabPane tab="WTD" key="WTD">
+              <Row>
+                <Space direction="horizontal" align="center" wrap={false}>
+                  <div style={{ height: 300, width: 500 }}>
+                    <WeeklyChartContent />
+                  </div>
+                  <div style={{ height: 300, width: 500 }}>
+                    <WeeklyChartContent />
+                  </div>
+                  <div style={{ height: 300, width: 500 }}>
+                    <WeeklyChartContent />
+                  </div>
+                </Space>
+              </Row>
+            </Tabs.TabPane>
+
+            <Tabs.TabPane tab="MTD" key="MTD">
+              <Row>
+                <Space direction="horizontal" align="center" wrap={false}>
+                  <div style={{ height: 300, width: 500 }}>
+                    <MonthlyChartContent />
+                  </div>
+                  <div style={{ height: 300, width: 500 }}>
+                    <MonthlyChartContent />
+                  </div>
+                  <div style={{ height: 300, width: 500 }}>
+                    <MonthlyChartContent />
+                  </div>
+                </Space>
+              </Row>
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="QTD" key="QTD">
+              <Row>
+                <Space direction="horizontal" align="center" wrap={false}>
+                  <div style={{ height: 300, width: 500 }}>
+                    <QuorterChartContent />
+                  </div>
+                  <div style={{ height: 300, width: 500 }}>
+                    <QuorterChartContent />
+                  </div>
+                  <div style={{ height: 300, width: 500 }}>
+                    <QuorterChartContent />
+                  </div>
+                </Space>
+              </Row>
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="YTD" key="YTD">
+              <Row>
+                <Space direction="horizontal" align="center" wrap={false}>
+                  <div style={{ height: 300, width: 500 }}>
+                    <YearlyChartContent />
+                  </div>
+                  <div style={{ height: 300, width: 500 }}>
+                    <YearlyChartContent />
+                  </div>
+                  <div style={{ height: 300, width: 500 }}>
+                    <YearlyChartContent />
+                  </div>
+                </Space>
+              </Row>
+            </Tabs.TabPane>
+          </Tabs>
+        </Row>
       </Card>
-      {/* <Divider /> */}
-      <Tabs>
-        <Tabs.TabPane tab="Daily" key="Daily">
-          {/* <Row> */}
-          <Space direction="horizontal" align="center" wrap={false}>
-            {/* <Col> */}
-            <div style={{ height: 300, width: 500 }}>
-              <DailyChartContent />
-            </div>
-            {/* </Col> */}
-            {/* <Col> */}
-            <div style={{ height: 300, width: 500 }}>
-              <DailyChartContent />
-            </div>
-            {/* </Col> */}
-            {/* <Col> */}
-            <div style={{ height: 300, width: 500 }}>
-              <DailyChartContent />
-            </div>
-            {/* </Col> */}
-          </Space>
-          {/* </Row> */}
-        </Tabs.TabPane>
-
-        <Tabs.TabPane tab="WTD" key="WTD">
-          <Row>
-            <Space direction="horizontal" align="center" wrap={false}>
-              <div style={{ height: 300, width: 500 }}>
-                <WeeklyChartContent />
-              </div>
-              <div style={{ height: 300, width: 500 }}>
-                <WeeklyChartContent />
-              </div>
-              <div style={{ height: 300, width: 500 }}>
-                <WeeklyChartContent />
-              </div>
-            </Space>
-          </Row>
-        </Tabs.TabPane>
-
-        <Tabs.TabPane tab="MTD" key="MTD">
-          <Row>
-            <Space direction="horizontal" align="center" wrap={false}>
-              <div style={{ height: 300, width: 500 }}>
-                <MonthlyChartContent />
-              </div>
-              <div style={{ height: 300, width: 500 }}>
-                <MonthlyChartContent />
-              </div>
-              <div style={{ height: 300, width: 500 }}>
-                <MonthlyChartContent />
-              </div>
-            </Space>
-          </Row>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="QTD" key="QTD">
-          <Row>
-            <Space direction="horizontal" align="center" wrap={false}>
-              <div style={{ height: 300, width: 500 }}>
-                <QuorterChartContent />
-              </div>
-              <div style={{ height: 300, width: 500 }}>
-                <QuorterChartContent />
-              </div>
-              <div style={{ height: 300, width: 500 }}>
-                <QuorterChartContent />
-              </div>
-            </Space>
-          </Row>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="YTD" key="YTD">
-          <Row>
-            <Space direction="horizontal" align="center" wrap={false}>
-              <div style={{ height: 300, width: 500 }}>
-                <YearlyChartContent />
-              </div>
-              <div style={{ height: 300, width: 500 }}>
-                <YearlyChartContent />
-              </div>
-              <div style={{ height: 300, width: 500 }}>
-                <YearlyChartContent />
-              </div>
-            </Space>
-          </Row>
-        </Tabs.TabPane>
-      </Tabs>
     </div>
   );
 }

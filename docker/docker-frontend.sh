@@ -18,10 +18,10 @@
 set -e
 
 cd /app/superset-frontend
-npm install -g npm@9.6.4
+npm install -g npm@7
 npm install -f --no-optional --global webpack webpack-cli
 npm install -f --no-optional
-npm i -S antd
+npm i -S antd@4.9.4
 echo "Running frontend"
 
 npm run dev

@@ -9,18 +9,19 @@ import {
   yearlyGridStyle,
   gridStyle2,
   gridStyle3,
+  cardBodyBackGroundColor,
 } from '../styles/css';
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 export function Col3(props: ChartPtProps) {
   return (
     <Card
       key="Col3-card"
-      title={'Shoper Visits'}
+      title="Shoper Visits"
       bordered={false}
-      hoverable={true}
-      bodyStyle={{ backgroundColor: '#f0f2f5' }}
+      hoverable
+      bodyStyle={{ backgroundColor: cardBodyBackGroundColor }}
       style={{ width: '100%', textAlign: 'center' }}
     >
       <Space direction="vertical" size="small" style={{ display: 'flex' }}>

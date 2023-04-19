@@ -42,7 +42,7 @@
     /* Emit */
     "declaration": true,
     "declarationMap": true,
-    "importHelpers": false,
+    "importHelpers": true,
     "noEmitOnError": true,
     "outDir": "./dist",
     "sourceMap": true,
@@ -53,7 +53,8 @@
     "esModuleInterop": false,
     "forceConsistentCasingInFileNames": true,
     /* Backwards Compatibility */
-    // "suppressImplicitAnyIndexErrors": true,
+    "suppressImplicitAnyIndexErrors": true,
+    // "ignoreDeprecations": "5.0",
     /* Language and Environment */
     "target": "esnext",
     "jsx": "preserve",

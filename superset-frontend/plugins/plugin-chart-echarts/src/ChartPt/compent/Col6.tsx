@@ -9,8 +9,10 @@ import {
   yearlyGridStyle,
   gridStyle2,
   gridStyle3,
+  cardBodyBackGroundColor,
 } from '../styles/css';
-const { Title, Text } = Typography;
+
+const { Title } = Typography;
 
 export function Col6(props: ChartPtProps) {
   return (
@@ -18,8 +20,8 @@ export function Col6(props: ChartPtProps) {
       key="Col6-card"
       title="Retrun Amount(%)"
       bordered={false}
-      hoverable={true}
-      bodyStyle={{ backgroundColor: '#f0f2f5' }}
+      hoverable
+      bodyStyle={{ backgroundColor: cardBodyBackGroundColor }}
       headStyle={{ textAlign: 'center' }}
       style={{ width: '100%' }}
     >
