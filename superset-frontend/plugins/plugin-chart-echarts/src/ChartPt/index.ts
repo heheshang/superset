@@ -54,8 +54,8 @@ export default class ChartPtPlugin extends ChartPlugin {
         AnnotationType.Timeseries,
       ],
       name: isFeatureEnabled(FeatureFlag.GENERIC_CHART_AXES)
-        ? t('Generic Chart')
-        : t('Time-series Chart'),
+        ? t('Chart pt')
+        : t('pt Chart '),
       tags: [
         t('Advanced-Analytics'),
         t('Aesthetic'),
