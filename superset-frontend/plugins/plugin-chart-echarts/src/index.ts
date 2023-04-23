@@ -32,6 +32,7 @@ export { default as EchartsRadarChartPlugin } from './Radar';
 export { default as EchartsFunnelChartPlugin } from './Funnel';
 export { default as EchartsTreeChartPlugin } from './Tree';
 export { default as EchartsTreemapChartPlugin } from './Treemap';
+export { default as DashBoardPtPlugin } from './DashBoardPt';
 export { default as ChartPtPlugin } from './ChartPt';
 export { BigNumberChartPlugin, BigNumberTotalChartPlugin } from './BigNumber';
 
@@ -45,6 +46,7 @@ export { default as RadarTransformProps } from './Radar/transformProps';
 export { default as TimeseriesTransformProps } from './Timeseries/transformProps';
 export { default as TreeTransformProps } from './Tree/transformProps';
 export { default as TreemapTransformProps } from './Treemap/transformProps';
+export { default as DashBoardPtTransformProps } from './DashBoardPt/transformProps';
 export { default as ChartPtTransformProps } from './ChartPt/transformProps';
 
 export { DEFAULT_FORM_DATA as TimeseriesDefaultFormData } from './Timeseries/types';

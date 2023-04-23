@@ -69,6 +69,7 @@ import {
   EchartsTreemapChartPlugin,
   EchartsMixedTimeseriesChartPlugin,
   EchartsTreeChartPlugin,
+  DashBoardPtPlugin,
   ChartPtPlugin,
 } from '@superset-ui/plugin-chart-echarts';
 import {
@@ -170,6 +171,7 @@ export default class MainPreset extends Preset {
         new EchartsTreeChartPlugin().configure({ key: 'tree_chart' }),
         new HandlebarsChartPlugin().configure({ key: 'handlebars' }),
         // new SupersetPluginChartHelloWorld().configure({ key: 'ext-hello-world' }),
+        new DashBoardPtPlugin().configure({ key: 'dashboard-pt' }),
         new ChartPtPlugin().configure({ key: 'chart-pt' }),
         ...experimentalplugins,
       ],

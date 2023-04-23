@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { EChartsOption } from 'echarts';
 import Echart from '../../components/Echart';
-import { EchartsProps } from '../../types';
+import { CustChartPtLineProps } from '../types';
 
-const DailyChartContent: React.FC<EchartsProps> = props => {
+const DailyChartContent: React.FC<CustChartPtLineProps> = props => {
   // let [options, setOptions] = useState<EChartsOption>({});
   const [options, setOptions] = useState<EChartsOption>({});
+  const { title } = props;
   useEffect(() => {
     setOptions({
-      animationDuration: 100,
+      animationDuration: 10,
       title: {
-        text: 'Stacked Line',
+        text: title,
         left: 'center',
       },
       tooltip: {

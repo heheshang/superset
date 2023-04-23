@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import buildQuery from '../../src/ChartPt/buildQuery';
+import buildQuery from '../../src/DashBoardPt/buildQuery';
 
 describe('ChartPt buildQuery', () => {
   const formData = {

@@ -46,7 +46,7 @@ export default class ChartPtPlugin extends ChartPlugin {
       behaviors: [Behavior.INTERACTIVE_CHART],
       category: t('Evolution'),
       credits: ['https://echarts.apache.org'],
-      description: 'Chart Pt',
+      description: 'Chart Pt ',
       supportedAnnotationTypes: [
         AnnotationType.Event,
         AnnotationType.Formula,
@@ -54,15 +54,18 @@ export default class ChartPtPlugin extends ChartPlugin {
         AnnotationType.Timeseries,
       ],
       name: isFeatureEnabled(FeatureFlag.GENERIC_CHART_AXES)
-        ? t('Chart pt')
-        : t('pt Chart '),
+        ? t('Chart pt ')
+        : t('Chart pt '),
       tags: [
         t('Advanced-Analytics'),
         t('Aesthetic'),
-        t('Line'),
+        t('pt chart'),
         t('Predictive'),
         t('Time'),
         t('Transformable'),
+        t('net revenue'),
+        t('shopper visit'),
+        t('conversion rate'),
       ],
       thumbnail: chartPt,
     });

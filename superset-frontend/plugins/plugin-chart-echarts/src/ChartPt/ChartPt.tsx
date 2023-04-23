@@ -16,18 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import React, { useEffect, createRef } from 'react';
-import { Card, Row, Col, Tabs, Space, Typography } from 'antd';
-import { ChartPtProps } from './types';
-import { DailyChartContent } from './chartCompent/DailyChart';
-import { WeeklyChartContent } from './chartCompent/WeeklyChart';
-import { MonthlyChartContent } from './chartCompent/MonthlyChart';
-import { QuorterChartContent } from './chartCompent/QuorterChart';
-import { YearlyChartContent } from './chartCompent/YearlyChart';
-import CustomCol from './compent/CustomCol';
-import customColList from './util/constant';
+import { createRef, useEffect } from 'react';
+// import { CustomChartContent } from './chartCompent/CustomChartContent';
+import { Row, Space, Tabs } from 'antd';
 
-const { Text } = Typography;
+import { ChartPtLineProps, CustomChartProps, chartComponents } from './types';
+
 // The following Styles component is a <div> element, which has been styled using Emotion
 // For docs, visit https://emotion.sh/docs/styled
 
@@ -58,10 +52,61 @@ const { Text } = Typography;
 //   }
 // `;
 
-export default function ChartPt(props: ChartPtProps) {
+function renderTabPane(
+  tabKey: string,
+  componentProps: CustomChartComponentProps,
+): React.ReactNode {
+  const { data } = componentProps;
+  const components = chartComponents
+    .filter(({ key }) => key === tabKey)
+    .map(({ title, component }) => {
+      const Component = component as React.FC<CustomChartProps>;
+      return (
+        <Component
+          key={title}
+          height={300}
+          width={500}
+          echartOptions={{}}
+          headerFontSize="s"
+          boldText={false}
+          headerText=""
+          title={title}
+          data={data}
+        />
+      );
+    });
+
+  return (
+    <Tabs.TabPane tab={tabKey} key={tabKey}>
+      <Row>
+        <Space direction="horizontal" align="center" wrap={false}>
+          {components}
+        </Space>
+      </Row>
+    </Tabs.TabPane>
+  );
+}
+
+interface CustomChartComponentProps {
+  data: any;
+}
+
+function CustomChartComponent(props: CustomChartComponentProps) {
+  return (
+    <Tabs>
+      {renderTabPane('Daily', props)}
+      {renderTabPane('WTD', props)}
+      {renderTabPane('MTD', props)}
+      {renderTabPane('QTD', props)}
+      {renderTabPane('YTD', props)}
+    </Tabs>
+  );
+}
+
+export default function ChartPt(props: ChartPtLineProps) {
   // height and width are the height and width of the DOM element as it exists in the dashboard.
   // There is also a `data` prop, which is, of course, your DATA 🎉
-  const { data, height, width } = props;
+  const { data } = props;
   const rootElem = createRef<HTMLDivElement>();
   // Often, you just want to get a hold of the DOM and go nuts.
   // Here, you can do that with createRef, and the useEffect hook.
@@ -73,157 +118,190 @@ export default function ChartPt(props: ChartPtProps) {
   console.log('Plugin props', props);
 
   return (
-    <div>
-      <Card
-        style={{ width, height }}
-        title={'\u00A0'}
-        extra={
-          <div>
-            <Row justify="end" align="middle">
-              <Text style={{ fontSize: 1 }}>11111</Text>
-            </Row>
-            <Row justify="end" align="middle">
-              <Text style={{ fontSize: 1 }}>11111</Text>
-            </Row>
-            <Row justify="end" align="middle">
-              <Text style={{ fontSize: 1 }}>11111</Text>
-            </Row>
-            <Row justify="end" align="middle">
-              <Text style={{ fontSize: 1 }}>11111</Text>
-            </Row>
-          </div>
-        }
-      >
-        <Row>
-          {customColList.map(config => (
-            <Col span={4}>
-              <CustomCol
-                Title={config.Title}
-                Daily={config.Daily}
-                DailyDoD={config.DailyDoD}
-                DailyYoY={config.DailyYoY}
-                Weekly={config.Weekly}
-                WeeklyWoW={config.WeeklyWoW}
-                WeeklyYoY={config.WeeklyYoY}
-                Monthly={config.Monthly}
-                MonthlyMoM={config.MonthlyMoM}
-                MonthlyYoY={config.MonthlyYoY}
-                Quarterly={config.Quarterly}
-                QuarterlyQoQ={config.QuarterlyQoQ}
-                QuarterlyYoY={config.QuarterlyYoY}
-                Yearly={config.Yearly}
-                YearlyYoY={config.YearlyYoY}
-                DailyDoDToolTip={config.DailyDoDToolTip}
-                DailyYoYToolTip={config.DailyYoYToolTip}
-                WeeklyWoWToolTip={config.WeeklyWoWToolTip}
-                WeeklyYoYToolTip={config.WeeklyYoYToolTip}
-                MonthlyMoMToolTip={config.MonthlyMoMToolTip}
-                MonthlyYoYToolTip={config.MonthlyYoYToolTip}
-                QuarterlyQoQToolTip={config.QuarterlyQoQToolTip}
-                QuarterlyYoYToolTip={config.QuarterlyYoYToolTip}
-                YearlyYoYToolTip={config.YearlyYoYToolTip}
-                height={100}
-                width={0}
+    /*  <Row>
+      <Tabs style={{ marginTop: 10 }}>
+        <Tabs.TabPane tab="Daily" key="Daily">
+          <Space direction="horizontal" align="center" wrap={false}>
+            <DailyChartContent
+              height={300}
+              width={500}
+              echartOptions={{}}
+              headerFontSize="s"
+              boldText={false}
+              headerText=""
+              title="Net Revenue"
+              data={data}
+            />
+            <DailyChartContent
+              height={300}
+              width={500}
+              echartOptions={{}}
+              headerFontSize="s"
+              boldText={false}
+              headerText=""
+              title="Shopper visits"
+              data={data}
+            />
+            <DailyChartContent
+              height={300}
+              width={500}
+              echartOptions={{}}
+              headerFontSize="s"
+              boldText={false}
+              headerText=""
+              title="Conversion Rate"
+              data={data}
+            />
+          </Space>
+        </Tabs.TabPane>
+
+        <Tabs.TabPane tab="WTD" key="WTD">
+          <Row>
+            <Space direction="horizontal" align="center" wrap={false}>
+              <WeeklyChartContent
+                height={300}
+                width={500}
+                echartOptions={{}}
                 headerFontSize="s"
                 boldText={false}
                 headerText=""
+                title="Net Revenue"
                 data={data}
               />
-            </Col>
-          ))}
-        </Row>
-        <Row>
-          <Tabs style={{ marginTop: 10 }}>
-            <Tabs.TabPane tab="Daily" key="Daily">
-              <Space direction="horizontal" align="center" wrap={false}>
-                {/* <div style={{ height: 300, width: 500 }}> */}
-                <DailyChartContent
-                  height={300}
-                  width={500}
-                  echartOptions={{}}
-                />
-                {/* </div> */}
-                {/* <div style={{ height: 300, width: 500 }}> */}
-                <DailyChartContent
-                  height={300}
-                  width={500}
-                  echartOptions={{}}
-                />
-                {/* </div> */}
-                {/* <div style={{ height: 300, width: 500 }}> */}
-                <DailyChartContent
-                  height={300}
-                  width={500}
-                  echartOptions={{}}
-                />
-                {/* </div> */}
-              </Space>
-            </Tabs.TabPane>
+              <WeeklyChartContent
+                height={300}
+                width={500}
+                echartOptions={{}}
+                headerFontSize="s"
+                boldText={false}
+                headerText=""
+                title="Shopper visits"
+                data={data}
+              />
+              <WeeklyChartContent
+                height={300}
+                width={500}
+                echartOptions={{}}
+                headerFontSize="s"
+                boldText={false}
+                headerText=""
+                title="Conversion Rate"
+                data={data}
+              />
+            </Space>
+          </Row>
+        </Tabs.TabPane>
 
-            <Tabs.TabPane tab="WTD" key="WTD">
-              <Row>
-                <Space direction="horizontal" align="center" wrap={false}>
-                  <div style={{ height: 300, width: 500 }}>
-                    <WeeklyChartContent />
-                  </div>
-                  <div style={{ height: 300, width: 500 }}>
-                    <WeeklyChartContent />
-                  </div>
-                  <div style={{ height: 300, width: 500 }}>
-                    <WeeklyChartContent />
-                  </div>
-                </Space>
-              </Row>
-            </Tabs.TabPane>
-
-            <Tabs.TabPane tab="MTD" key="MTD">
-              <Row>
-                <Space direction="horizontal" align="center" wrap={false}>
-                  <div style={{ height: 300, width: 500 }}>
-                    <MonthlyChartContent />
-                  </div>
-                  <div style={{ height: 300, width: 500 }}>
-                    <MonthlyChartContent />
-                  </div>
-                  <div style={{ height: 300, width: 500 }}>
-                    <MonthlyChartContent />
-                  </div>
-                </Space>
-              </Row>
-            </Tabs.TabPane>
-            <Tabs.TabPane tab="QTD" key="QTD">
-              <Row>
-                <Space direction="horizontal" align="center" wrap={false}>
-                  <div style={{ height: 300, width: 500 }}>
-                    <QuorterChartContent />
-                  </div>
-                  <div style={{ height: 300, width: 500 }}>
-                    <QuorterChartContent />
-                  </div>
-                  <div style={{ height: 300, width: 500 }}>
-                    <QuorterChartContent />
-                  </div>
-                </Space>
-              </Row>
-            </Tabs.TabPane>
-            <Tabs.TabPane tab="YTD" key="YTD">
-              <Row>
-                <Space direction="horizontal" align="center" wrap={false}>
-                  <div style={{ height: 300, width: 500 }}>
-                    <YearlyChartContent />
-                  </div>
-                  <div style={{ height: 300, width: 500 }}>
-                    <YearlyChartContent />
-                  </div>
-                  <div style={{ height: 300, width: 500 }}>
-                    <YearlyChartContent />
-                  </div>
-                </Space>
-              </Row>
-            </Tabs.TabPane>
-          </Tabs>
-        </Row>
-      </Card>
-    </div>
+        <Tabs.TabPane tab="MTD" key="MTD">
+          <Row>
+            <Space direction="horizontal" align="center" wrap={false}>
+              <MonthlyChartContent
+                height={300}
+                width={500}
+                echartOptions={{}}
+                headerFontSize="s"
+                boldText={false}
+                headerText=""
+                title="Net Revenue"
+                data={data}
+              />
+              <MonthlyChartContent
+                height={300}
+                width={500}
+                echartOptions={{}}
+                headerFontSize="s"
+                boldText={false}
+                headerText=""
+                title="Shopper visits"
+                data={data}
+              />
+              <MonthlyChartContent
+                height={300}
+                width={500}
+                echartOptions={{}}
+                headerFontSize="s"
+                boldText={false}
+                headerText=""
+                title="Conversion Rate"
+                data={data}
+              />
+            </Space>
+          </Row>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="QTD" key="QTD">
+          <Row>
+            <Space direction="horizontal" align="center" wrap={false}>
+              <QuorterChartContent
+                height={300}
+                width={500}
+                echartOptions={{}}
+                headerFontSize="s"
+                boldText={false}
+                headerText=""
+                title="Net Revenue"
+                data={data}
+              />
+              <QuorterChartContent
+                height={300}
+                width={500}
+                echartOptions={{}}
+                headerFontSize="s"
+                boldText={false}
+                headerText=""
+                title="Shopper visits"
+                data={data}
+              />
+              <QuorterChartContent
+                height={300}
+                width={500}
+                echartOptions={{}}
+                headerFontSize="s"
+                boldText={false}
+                headerText=""
+                title="Conversion Rate"
+                data={data}
+              />
+            </Space>
+          </Row>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="YTD" key="YTD">
+          <Row>
+            <Space direction="horizontal" align="center" wrap={false}>
+              <QuorterChartContent
+                height={300}
+                width={500}
+                echartOptions={{}}
+                headerFontSize="s"
+                boldText={false}
+                headerText=""
+                title="Net Revenue"
+                data={data}
+              />
+              <QuorterChartContent
+                height={300}
+                width={500}
+                echartOptions={{}}
+                headerFontSize="s"
+                boldText={false}
+                headerText=""
+                title="Shopper visits"
+                data={data}
+              />
+              <QuorterChartContent
+                height={300}
+                width={500}
+                echartOptions={{}}
+                headerFontSize="s"
+                boldText={false}
+                headerText=""
+                title="Conversion Rate"
+                data={data}
+              />
+            </Space>
+          </Row>
+        </Tabs.TabPane>
+      </Tabs>
+    </Row> */
+    <CustomChartComponent data={data} />
   );
 }

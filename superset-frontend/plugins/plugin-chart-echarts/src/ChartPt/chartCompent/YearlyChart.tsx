@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from 'react';
 import { EChartsOption } from 'echarts';
-import { Charts } from './Charts';
+import React, { useEffect, useState } from 'react';
+import Echart from '../../components/Echart';
+import { CustChartPtLineProps } from '../types';
 
-const YearlyChartContent: React.FC = () => {
+const YearlyChartContent: React.FC<CustChartPtLineProps> = props => {
   // let [options, setOptions] = useState<EChartsOption>({});
   const [options, setOptions] = useState<EChartsOption>({});
+  const { title } = props;
   useEffect(() => {
     setOptions({
+      title: {
+        text: title,
+        left: 'center',
+      },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -133,6 +139,8 @@ const YearlyChartContent: React.FC = () => {
       ],
     });
   }, []);
-  return <Charts options={options} />;
+  return (
+    <Echart echartOptions={options} height={props.height} width={props.width} />
+  );
 };
 export { YearlyChartContent };

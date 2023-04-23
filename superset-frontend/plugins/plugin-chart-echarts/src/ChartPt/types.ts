@@ -21,7 +21,12 @@ import {
   supersetTheme,
   TimeseriesDataRecord,
 } from '@superset-ui/core';
-import { CSSProperties } from 'react';
+import { EchartsProps } from '../types';
+import { DailyChartContent } from './chartCompent/DailyChart';
+import { MonthlyChartContent } from './chartCompent/MonthlyChart';
+import { QuorterChartContent } from './chartCompent/QuorterChart';
+import { WeeklyChartContent } from './chartCompent/WeeklyChart';
+import { YearlyChartContent } from './chartCompent/YearlyChart';
 
 export interface ChartPtStylesProps {
   height: number;
@@ -32,54 +37,130 @@ export interface ChartPtStylesProps {
 
 interface ChartPtCustomizeProps {
   headerText: string;
+  title: string;
 }
 
 export type ChartPtQueryFormData = QueryFormData &
   ChartPtStylesProps &
   ChartPtCustomizeProps;
 
-export type ChartPtProps = ChartPtStylesProps &
+export type ChartPtLineProps = ChartPtStylesProps &
   ChartPtCustomizeProps & {
     data: TimeseriesDataRecord[];
     // add typing here for the props you pass in from transformProps.ts!
   };
+export type CustChartPtLineProps = ChartPtLineProps & EchartsProps;
 
-interface ChartCardData {
-  title: String;
-  value: String;
-  tooltip1: String;
-  value1: String;
-  tooltip2: String;
-  value2: String;
-  style: CSSProperties;
+export interface CustomChartProps {
+  height: number;
+  width: number;
+  echartOptions: any;
+  headerFontSize: 's' | 'm' | 'l';
+  boldText: boolean;
+  headerText: string;
+  title: string;
+  data: any;
 }
+enum ChartTitle {
+  DailyNetRevenue = 'Net Revenue',
+  DailyShopperVisits = 'Shopper Visits',
+  DailyConversionRate = 'Conversion Rate',
 
-export type ChartCardProps = ChartCardData;
+  WeeklyNetRevenue = 'Net Revenue',
+  WeeklyShopperVisits = 'Shopper Visits',
+  WeeklyConversionRate = 'Conversion Rate',
 
-export interface ICustomColdata {
-  Title: string;
-  Daily: string;
-  DailyDoD: string;
-  DailyYoY: string;
-  Weekly: string;
-  WeeklyWoW: string;
-  WeeklyYoY: string;
-  Monthly: string;
-  MonthlyMoM: string;
-  MonthlyYoY: string;
-  Quarterly: string;
-  QuarterlyQoQ: string;
-  QuarterlyYoY: string;
-  Yearly: string;
-  YearlyYoY: string;
-  DailyDoDToolTip: string;
-  DailyYoYToolTip: string;
-  WeeklyWoWToolTip: string;
-  WeeklyYoYToolTip: string;
-  MonthlyMoMToolTip: string;
-  MonthlyYoYToolTip: string;
-  QuarterlyQoQToolTip: string;
-  QuarterlyYoYToolTip: string;
-  YearlyYoYToolTip: string;
+  MonthlyNetRevenue = 'Net Revenue',
+  MonthlyShopperVisits = 'Shopper Visits',
+  MonthlyConversionRate = 'Conversion Rate',
+
+  QuorterNetRevenue = 'Net Revenue',
+  QuorterShopperVisits = 'Shopper Visits',
+  QuorterConversionRate = 'Conversion Rate',
+
+  YearlyNetRevenue = 'Net Revenue',
+  YearlyShopperVisits = 'Shopper Visits',
+  YearlyConversionRate = 'Conversion Rate',
 }
-export type CustomColProps = ICustomColdata & ChartPtProps;
+const chartComponents = [
+  {
+    key: 'Daily',
+    title: ChartTitle.DailyNetRevenue,
+    component: DailyChartContent,
+  },
+  {
+    key: 'Daily',
+    title: ChartTitle.DailyShopperVisits,
+    component: DailyChartContent,
+  },
+  {
+    key: 'Daily',
+    title: ChartTitle.DailyConversionRate,
+    component: DailyChartContent,
+  },
+
+  {
+    key: 'WTD',
+    title: ChartTitle.WeeklyNetRevenue,
+    component: WeeklyChartContent,
+  },
+  {
+    key: 'WTD',
+    title: ChartTitle.WeeklyShopperVisits,
+    component: WeeklyChartContent,
+  },
+  {
+    key: 'WTD',
+    title: ChartTitle.WeeklyConversionRate,
+    component: WeeklyChartContent,
+  },
+
+  {
+    key: 'MTD',
+    title: ChartTitle.MonthlyNetRevenue,
+    component: MonthlyChartContent,
+  },
+  {
+    key: 'MTD',
+    title: ChartTitle.MonthlyShopperVisits,
+    component: MonthlyChartContent,
+  },
+  {
+    key: 'MTD',
+    title: ChartTitle.MonthlyConversionRate,
+    component: MonthlyChartContent,
+  },
+
+  {
+    key: 'QTD',
+    title: ChartTitle.QuorterNetRevenue,
+    component: QuorterChartContent,
+  },
+  {
+    key: 'QTD',
+    title: ChartTitle.QuorterShopperVisits,
+    component: QuorterChartContent,
+  },
+  {
+    key: 'QTD',
+    title: ChartTitle.QuorterConversionRate,
+    component: QuorterChartContent,
+  },
+
+  {
+    key: 'YTD',
+    title: ChartTitle.YearlyNetRevenue,
+    component: YearlyChartContent,
+  },
+  {
+    key: 'YTD',
+    title: ChartTitle.YearlyShopperVisits,
+    component: YearlyChartContent,
+  },
+  {
+    key: 'YTD',
+    title: ChartTitle.YearlyConversionRate,
+    component: YearlyChartContent,
+  },
+];
+export { ChartTitle, chartComponents };

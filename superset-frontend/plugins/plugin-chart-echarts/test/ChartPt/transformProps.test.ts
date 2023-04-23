@@ -16,12 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import {
-  ChartProps,
-  supersetTheme
-} from '@superset-ui/core';
+import { ChartProps, supersetTheme } from '@superset-ui/core';
 
-import transformProps from '../../src/ChartPt/transformProps';
+import transformProps from '../../src/DashBoardPt/transformProps';
 
 describe('ChartPt transformProps', () => {
   const formData = {
@@ -38,9 +35,11 @@ describe('ChartPt transformProps', () => {
     formData,
     width: 800,
     height: 600,
-    queriesData: [{
-      data: [{ name: 'Hulk', sum__num: 1 }],
-    }],
+    queriesData: [
+      {
+        data: [{ name: 'Hulk', sum__num: 1 }],
+      },
+    ],
     theme: supersetTheme,
   });
 

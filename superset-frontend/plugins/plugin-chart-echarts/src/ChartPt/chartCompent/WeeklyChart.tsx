@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { EChartsOption } from 'echarts';
-import { Charts } from './Charts';
+import { CustChartPtLineProps } from '../types';
+import Echart from '../../components/Echart';
 
-const WeeklyChartContent: React.FC = () => {
+const WeeklyChartContent: React.FC<CustChartPtLineProps> = props => {
   // let [options, setOptions] = useState<EChartsOption>({});
   const [options, setOptions] = useState<EChartsOption>({});
+  const { title } = props;
   useEffect(() => {
     setOptions({
       title: {
-        text: 'Stacked Line',
+        text: title,
         left: 'center',
       },
       tooltip: {
@@ -80,6 +82,8 @@ const WeeklyChartContent: React.FC = () => {
       ],
     });
   }, []);
-  return <Charts options={options} />;
+  return (
+    <Echart echartOptions={options} height={props.height} width={props.width} />
+  );
 };
 export { WeeklyChartContent };
