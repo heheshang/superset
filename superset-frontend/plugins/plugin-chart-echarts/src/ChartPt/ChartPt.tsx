@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { createRef, useEffect } from 'react';
+import React, { createRef, useEffect } from 'react';
 // import { CustomChartContent } from './chartCompent/CustomChartContent';
 import { Row, Space, Tabs } from 'antd';
 
@@ -51,11 +51,13 @@ import { ChartPtLineProps, CustomChartProps, chartComponents } from './types';
 //       height - theme.gridUnit * 12 - theme.typography.sizes[headerFontSize]}px;
 //   }
 // `;
+interface RenderTabPaneProps {
+  tabKey: string;
+  componentProps: CustomChartComponentProps;
+}
 
-function renderTabPane(
-  tabKey: string,
-  componentProps: CustomChartComponentProps,
-): React.ReactNode {
+const renderTabPane: React.FC<RenderTabPaneProps> = props => {
+  const { tabKey, componentProps } = props;
   const { data } = componentProps;
   const components = chartComponents
     .filter(({ key }) => key === tabKey)
@@ -85,23 +87,44 @@ function renderTabPane(
       </Row>
     </Tabs.TabPane>
   );
-}
+};
 
 interface CustomChartComponentProps {
   data: any;
 }
 
-function CustomChartComponent(props: CustomChartComponentProps) {
+const CustomChartComponent: React.FC<CustomChartComponentProps> = props => {
+  const daily: RenderTabPaneProps = {
+    tabKey: 'Daily',
+    componentProps: props,
+  };
+  const WTD: RenderTabPaneProps = {
+    tabKey: 'WTD',
+    componentProps: props,
+  };
+  const MTD: RenderTabPaneProps = {
+    tabKey: 'MTD',
+    componentProps: props,
+  };
+  const QTD: RenderTabPaneProps = {
+    tabKey: 'QTD',
+    componentProps: props,
+  };
+  const YTD: RenderTabPaneProps = {
+    tabKey: 'YTD',
+    componentProps: props,
+  };
+
   return (
     <Tabs>
-      {renderTabPane('Daily', props)}
-      {renderTabPane('WTD', props)}
-      {renderTabPane('MTD', props)}
-      {renderTabPane('QTD', props)}
-      {renderTabPane('YTD', props)}
+      {renderTabPane(daily)}
+      {renderTabPane(WTD)}
+      {renderTabPane(MTD)}
+      {renderTabPane(QTD)}
+      {renderTabPane(YTD)}
     </Tabs>
   );
-}
+};
 
 export default function ChartPt(props: ChartPtLineProps) {
   // height and width are the height and width of the DOM element as it exists in the dashboard.
