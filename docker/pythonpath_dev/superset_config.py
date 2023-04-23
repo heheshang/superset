@@ -205,6 +205,14 @@ except ImportError:
 # CORS Options
 ENABLE_CORS = True
 CORS_OPTIONS = {"origins": "*", "methods": "*"}
+
+
+
+# Default cache for Superset objects
+CACHE_CONFIG: CacheConfig = {"CACHE_TYPE": "RedisCache"}
+
+# Cache for datasource metadata and query results
+DATA_CACHE_CONFIG: CacheConfig = {"CACHE_TYPE": "RedisCache"}
 # Cache for dashboard filter state (`CACHE_TYPE` defaults to `SimpleCache` when
 #  running in debug mode unless overridden)
 FILTER_STATE_CACHE_CONFIG: CacheConfig = {
