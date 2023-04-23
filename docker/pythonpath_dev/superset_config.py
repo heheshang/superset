@@ -24,7 +24,7 @@ import logging
 import os
 from datetime import timedelta
 from typing import Any, Dict, Optional
-
+from superset.superset_typing import CacheConfig
 from cachelib.file import FileSystemCache
 from celery.schedules import crontab
 
@@ -205,3 +205,20 @@ except ImportError:
 # CORS Options
 ENABLE_CORS = True
 CORS_OPTIONS = {"origins": "*", "methods": "*"}
+# Cache for dashboard filter state (`CACHE_TYPE` defaults to `SimpleCache` when
+#  running in debug mode unless overridden)
+FILTER_STATE_CACHE_CONFIG: CacheConfig = {
+    "CACHE_DEFAULT_TIMEOUT": int(timedelta(days=90).total_seconds()),
+    "CACHE_TYPE": "RedisCache",
+    # should the timeout be reset when retrieving a cached value
+    "REFRESH_TIMEOUT_ON_RETRIEVAL": True,
+}
+
+# Cache for explore form data state (`CACHE_TYPE` defaults to `SimpleCache` when
+#  running in debug mode unless overridden)
+EXPLORE_FORM_DATA_CACHE_CONFIG: CacheConfig = {
+    "CACHE_DEFAULT_TIMEOUT": int(timedelta(days=7).total_seconds()),
+    "CACHE_TYPE": "RedisCache",
+    # should the timeout be reset when retrieving a cached value
+    "REFRESH_TIMEOUT_ON_RETRIEVAL": True,
+}
