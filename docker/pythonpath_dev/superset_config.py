@@ -196,17 +196,6 @@ SQLLAB_CTAS_NO_LIMIT = True
 ENABLE_CORS = True
 CORS_OPTIONS = {"origins": "*", "methods": "*"}
 
-# Global async query config options.
-# Requires GLOBAL_ASYNC_QUERIES feature flag to be enabled.
-GLOBAL_ASYNC_QUERIES_REDIS_CONFIG = {
-    "port": REDIS_PORT,
-    "host": REDIS_HOST,
-    "password": "",
-    "db": 0,
-    "ssl": False,
-}
-
-
 
 RESULTS_BACKEND = RedisCache(
     host=REDIS_HOST, port=REDIS_PORT, key_prefix='superset_results')
@@ -227,17 +216,20 @@ DATA_CACHE_CONFIG = {
 # Cache for dashboard filter state (`CACHE_TYPE` defaults to `SimpleCache` when
 #  running in debug mode unless overridden)
 FILTER_STATE_CACHE_CONFIG = {
+    **CACHE_CONFIG,
     "CACHE_TYPE": "RedisCache",
     "CACHE_THRESHOLD": math.inf,
     "CACHE_DEFAULT_TIMEOUT": int(timedelta(minutes=10).total_seconds()),
 }
 
 EXPLORE_FORM_DATA_CACHE_CONFIG = {
+    **CACHE_CONFIG,
     "CACHE_TYPE": "RedisCache",
     "CACHE_THRESHOLD": math.inf,
     "CACHE_DEFAULT_TIMEOUT": int(timedelta(minutes=10).total_seconds()),
 }
 THUMBNAIL_CACHE_CONFIG = {
+    **CACHE_CONFIG,
     "CACHE_TYPE": "RedisCache",
     "CACHE_DEFAULT_TIMEOUT": 10000,
     "CACHE_KEY_PREFIX": "superset_thumbnails_",

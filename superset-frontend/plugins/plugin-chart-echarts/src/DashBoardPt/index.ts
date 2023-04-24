@@ -28,7 +28,7 @@ import {
 import buildQuery from './buildQuery';
 import controlPanel from './controlPanel';
 import transformProps from './transformProps';
-import chartPt from './images/chartPt.png';
+import dashboardPt from './images/dashboardPt.png';
 
 export default class DashBoardPtPlugin extends ChartPlugin {
   /**
@@ -65,7 +65,7 @@ export default class DashBoardPtPlugin extends ChartPlugin {
         t('Transformable'),
         t('DashBoard Chart pt'),
       ],
-      thumbnail: chartPt,
+      thumbnail: dashboardPt,
     });
 
     super({
