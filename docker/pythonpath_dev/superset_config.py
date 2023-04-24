@@ -20,6 +20,7 @@
 # development environments. Also note that superset_config_docker.py is imported
 # as a final step as a means to override "defaults" configured here
 #
+import math
 import logging
 import os
 from datetime import timedelta
@@ -27,7 +28,7 @@ from typing import Any, Dict, Optional
 from superset.superset_typing import CacheConfig
 from cachelib.file import FileSystemCache
 from celery.schedules import crontab
-
+from cachelib.redis import RedisCache
 logger = logging.getLogger()
 
 
@@ -62,12 +63,14 @@ SQLALCHEMY_DATABASE_URI = "%s://%s:%s@%s:%s/%s" % (
     DATABASE_DB,
 )
 
-REDIS_HOST = get_env_variable("REDIS_HOST")
-REDIS_PORT = get_env_variable("REDIS_PORT")
-REDIS_CELERY_DB = get_env_variable("REDIS_CELERY_DB", "0")
-REDIS_RESULTS_DB = get_env_variable("REDIS_RESULTS_DB", "1")
 
-RESULTS_BACKEND = FileSystemCache("/app/superset_home/sqllab")
+
+REDIS_PORT = os.environ.get("REDIS_PORT",6379)
+REDIS_CELERY_DB = os.environ.get("REDIS_CELERY_DB", 0)
+REDIS_RESULTS_DB = os.environ.get("REDIS_RESULTS_DB", 1)
+REDIS_CACHE_DB = os.environ.get("REDIS_CACHE_DB", 2)
+REDIS_HOST = os.environ.get("REDIS_HOST","redis")
+# RESULTS_BACKEND = FileSystemCache("/app/superset_home/sqllab")
 
 CACHE_CONFIG = {
     "CACHE_TYPE": "redis",
@@ -187,6 +190,63 @@ WEBDRIVER_BASEURL_USER_FRIENDLY = "http://tx:28088"
 
 SQLLAB_CTAS_NO_LIMIT = True
 
+
+
+# CORS Options
+ENABLE_CORS = True
+CORS_OPTIONS = {"origins": "*", "methods": "*"}
+
+# Global async query config options.
+# Requires GLOBAL_ASYNC_QUERIES feature flag to be enabled.
+GLOBAL_ASYNC_QUERIES_REDIS_CONFIG = {
+    "port": REDIS_PORT,
+    "host": REDIS_HOST,
+    "password": "",
+    "db": 0,
+    "ssl": False,
+}
+
+
+
+RESULTS_BACKEND = RedisCache(
+    host=REDIS_HOST, port=REDIS_PORT, key_prefix='superset_results')
+
+# Default cache for Superset objects
+CACHE_CONFIG = {
+    "CACHE_TYPE": "RedisCache",
+    "CACHE_DEFAULT_TIMEOUT": int(timedelta(minutes=1).total_seconds()),
+    "CACHE_KEY_PREFIX": "superset_cache",
+    "CACHE_REDIS_URL": f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_CACHE_DB}",
+}
+# Cache for datasource metadata and query results
+DATA_CACHE_CONFIG = {
+    **CACHE_CONFIG,
+    "CACHE_DEFAULT_TIMEOUT": int(timedelta(seconds=30).total_seconds()),
+    "CACHE_KEY_PREFIX": "superset_data_cache",
+}
+# Cache for dashboard filter state (`CACHE_TYPE` defaults to `SimpleCache` when
+#  running in debug mode unless overridden)
+FILTER_STATE_CACHE_CONFIG = {
+    "CACHE_TYPE": "RedisCache",
+    "CACHE_THRESHOLD": math.inf,
+    "CACHE_DEFAULT_TIMEOUT": int(timedelta(minutes=10).total_seconds()),
+}
+
+EXPLORE_FORM_DATA_CACHE_CONFIG = {
+    "CACHE_TYPE": "RedisCache",
+    "CACHE_THRESHOLD": math.inf,
+    "CACHE_DEFAULT_TIMEOUT": int(timedelta(minutes=10).total_seconds()),
+}
+THUMBNAIL_CACHE_CONFIG = {
+    "CACHE_TYPE": "RedisCache",
+    "CACHE_DEFAULT_TIMEOUT": 10000,
+    "CACHE_KEY_PREFIX": "superset_thumbnails_",
+    "CACHE_REDIS_HOST": REDIS_HOST,
+    "CACHE_REDIS_PORT": REDIS_PORT,
+    "CACHE_REDIS_DB": REDIS_CELERY_DB,
+}
+
+
 #
 # Optionally import superset_config_docker.py (which will have been included on
 # the PYTHONPATH) in order to allow for local settings to be overridden
@@ -202,31 +262,4 @@ except ImportError:
     logger.info("Using default Docker config...")
 
 
-# CORS Options
-ENABLE_CORS = True
-CORS_OPTIONS = {"origins": "*", "methods": "*"}
 
-
-
-# Default cache for Superset objects
-CACHE_CONFIG: CacheConfig = {"CACHE_TYPE": "RedisCache"}
-
-# Cache for datasource metadata and query results
-DATA_CACHE_CONFIG: CacheConfig = {"CACHE_TYPE": "RedisCache"}
-# Cache for dashboard filter state (`CACHE_TYPE` defaults to `SimpleCache` when
-#  running in debug mode unless overridden)
-FILTER_STATE_CACHE_CONFIG: CacheConfig = {
-    "CACHE_DEFAULT_TIMEOUT": int(timedelta(days=90).total_seconds()),
-    "CACHE_TYPE": "RedisCache",
-    # should the timeout be reset when retrieving a cached value
-    "REFRESH_TIMEOUT_ON_RETRIEVAL": True,
-}
-
-# Cache for explore form data state (`CACHE_TYPE` defaults to `SimpleCache` when
-#  running in debug mode unless overridden)
-EXPLORE_FORM_DATA_CACHE_CONFIG: CacheConfig = {
-    "CACHE_DEFAULT_TIMEOUT": int(timedelta(days=7).total_seconds()),
-    "CACHE_TYPE": "RedisCache",
-    # should the timeout be reset when retrieving a cached value
-    "REFRESH_TIMEOUT_ON_RETRIEVAL": True,
-}
