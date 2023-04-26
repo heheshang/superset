@@ -13,16 +13,16 @@ const YearlyChartContent: React.FC<CustChartPtLineProps> = props => {
   const currentQuarter = Math.floor(currentDate.getMonth() / 3) + 1;
   const quarters: string[] = [];
 
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 7; i += 1) {
     let quarterNumber = currentQuarter - i;
     let year = currentDate.getFullYear();
     if (quarterNumber <= 0) {
       quarterNumber += 4;
-      year--;
+      year -= 1;
       console.log(year, quarterNumber);
       if (quarterNumber <= 0) {
         quarterNumber += 4;
-        year--;
+        year -= 1;
         console.log(year, quarterNumber);
       }
     }

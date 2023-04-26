@@ -14,7 +14,7 @@ const DailyChartContent: React.FC<CustChartPtLineProps> = props => {
   const currentDate: Date = new Date();
   const formattedDates: string[] = [];
   // 循环计算前10天的日期并输出
-  for (let i = 1; i <= 10; i++) {
+  for (let i = 1; i <= 10; i += 1) {
     // 计算前i天的日期
     const previousDate: Date = new Date(
       currentDate.getTime() - i * 24 * 60 * 60 * 1000,
@@ -50,7 +50,7 @@ const DailyChartContent: React.FC<CustChartPtLineProps> = props => {
         distance: 10,
         rotate: 30,
         formatter(params: any) {
-          return '$' + `${params.value}` + 'M'; // 将节点名称和值显示在标签中
+          return `$${params.value}M`; // 将节点名称和值显示在标签中
         },
       },
       data: yAxis_data_this_year,
@@ -68,7 +68,7 @@ const DailyChartContent: React.FC<CustChartPtLineProps> = props => {
       label: {
         show: false,
         formatter(params: any) {
-          return '$' + `${params.value}` + 'M'; // 将节点名称和值显示在标签中
+          return `$${params.value}M`; // 将节点名称和值显示在标签中
         },
       },
       data: yAxis_data_last_year,

@@ -61,7 +61,7 @@ const renderTabPane: React.FC<RenderTabPaneProps> = props => {
   const { data } = componentProps;
   const components = chartComponents
     .filter(({ key }) => key === tabKey)
-    .map(({  title, component }) => {
+    .map(({ title, component }) => {
       const Component = component as React.FC<CustomChartProps>;
       return (
         <Component
