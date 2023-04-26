@@ -26,16 +26,16 @@ const QuorterChartContent: React.FC<CustChartPtLineProps> = props => {
   const xAxis_data_this_year = [320, 332, 301, 334, 390, 330, 320];
   const xAxis_data_last_year = [220, 182, 191, 234, 290, 330, 310];
   const sum_data = sumArrays(xAxis_data_this_year, xAxis_data_last_year);
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 7; i += 1) {
     let quarterNumber = currentQuarter - i;
     let year = currentDate.getFullYear();
     if (quarterNumber <= 0) {
       quarterNumber += 4;
-      year--;
+      year -= 1;
       console.log(year, quarterNumber);
       if (quarterNumber <= 0) {
         quarterNumber += 4;
-        year--;
+        year -= 1;
         console.log(year, quarterNumber);
       }
     }

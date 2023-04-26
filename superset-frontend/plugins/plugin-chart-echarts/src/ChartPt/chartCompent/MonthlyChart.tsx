@@ -12,7 +12,7 @@ const MonthlyChartContent: React.FC<CustChartPtLineProps> = props => {
   const legend_data = ['This Year', 'Last Year'];
   const monthCount = 12;
   const months: string[] = [];
-  for (let i = 0; i < monthCount; i++) {
+  for (let i = 0; i < monthCount; i += 1) {
     const monthNum = i + 1;
     months.push(`${monthNum.toString().padStart(2, '0')}`); // 将数字补零并添加前缀"w"
   }

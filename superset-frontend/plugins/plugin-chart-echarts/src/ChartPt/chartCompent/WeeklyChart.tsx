@@ -17,7 +17,7 @@ const WeeklyChartContent: React.FC<CustChartPtLineProps> = props => {
   // 根据当前日期和18周前的日期，计算每周的起始日期并用"w01"~"w17"表示
   const weekCount = 17;
   const weeks: string[] = [];
-  for (let i = 0; i < weekCount; i++) {
+  for (let i = 0; i < weekCount; i += 1) {
     // const startDate = new Date(weeksAgo18.getTime() + i * oneWeekMs);
     const weekNum = i + 1;
     weeks.push(`w${weekNum.toString().padStart(2, '0')}`); // 将数字补零并添加前缀"w"
