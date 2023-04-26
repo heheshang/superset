@@ -6,7 +6,7 @@ import Echart from '../../components/Echart';
 function sumArrays(arr1: number[], arr2: number[]): number[] {
   const resultArray: number[] = [];
 
-  for (let i = 0; i < arr1.length || i < arr2.length; i++) {
+  for (let i = 0; i < arr1.length || i < arr2.length; i += 1) {
     const sum = (arr1[i] || 0) + (arr2[i] || 0);
     resultArray.push(sum);
   }
