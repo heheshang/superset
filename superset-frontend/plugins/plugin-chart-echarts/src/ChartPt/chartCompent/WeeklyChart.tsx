@@ -65,7 +65,7 @@ const WeeklyChartContent: React.FC<CustChartPtLineProps> = props => {
       label: {
         show: false,
         formatter(params: any) {
-          return '$' + `${params.value}` + 'M'; // 将节点名称和值显示在标签中
+          return `$${params.value}M`; // 将节点名称和值显示在标签中
         },
       },
       data: yAxis_data_last_year,
