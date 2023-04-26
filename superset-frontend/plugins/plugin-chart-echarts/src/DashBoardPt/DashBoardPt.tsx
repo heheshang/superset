@@ -70,6 +70,9 @@ export default function DashBoardPt(props: ChartPtProps) {
     const root = rootElem.current as HTMLElement;
     console.log('Plugin element', root);
   });
+  const datetime = `${new Date().getFullYear()}-${
+    new Date().getUTCMonth() + 1
+  }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
 
   console.log('Plugin props', props);
 
@@ -81,16 +84,16 @@ export default function DashBoardPt(props: ChartPtProps) {
         extra={
           <div>
             <Row justify="end" align="middle">
-              <Text style={{ fontSize: 1 }}>11111</Text>
+              <Text style={{ fontSize: 1 }}>Last refresh time (GMT)</Text>
             </Row>
             <Row justify="end" align="middle">
-              <Text style={{ fontSize: 1 }}>11111</Text>
+              <Text style={{ fontSize: 1 }}>Adobe:{datetime}</Text>
             </Row>
             <Row justify="end" align="middle">
-              <Text style={{ fontSize: 1 }}>11111</Text>
+              <Text style={{ fontSize: 1 }}>Hybris:{datetime}</Text>
             </Row>
             <Row justify="end" align="middle">
-              <Text style={{ fontSize: 1 }}>11111</Text>
+              <Text style={{ fontSize: 1 }}>GPV2:{datetime}</Text>
             </Row>
           </div>
         }

@@ -18,7 +18,7 @@
  */
 import React, { createRef, useEffect } from 'react';
 // import { CustomChartContent } from './chartCompent/CustomChartContent';
-import { Row, Space, Tabs } from 'antd';
+import { Card, Row, Space, Tabs } from 'antd';
 
 import { ChartPtLineProps, CustomChartProps, chartComponents } from './types';
 
@@ -61,7 +61,7 @@ const renderTabPane: React.FC<RenderTabPaneProps> = props => {
   const { data } = componentProps;
   const components = chartComponents
     .filter(({ key }) => key === tabKey)
-    .map(({ title, component }) => {
+    .map(({  title, component }) => {
       const Component = component as React.FC<CustomChartProps>;
       return (
         <Component
@@ -116,13 +116,15 @@ const CustomChartComponent: React.FC<CustomChartComponentProps> = props => {
   };
 
   return (
-    <Tabs>
-      {renderTabPane(daily)}
-      {renderTabPane(WTD)}
-      {renderTabPane(MTD)}
-      {renderTabPane(QTD)}
-      {renderTabPane(YTD)}
-    </Tabs>
+    <Card>
+      <Tabs>
+        {renderTabPane(daily)}
+        {renderTabPane(WTD)}
+        {renderTabPane(MTD)}
+        {renderTabPane(QTD)}
+        {renderTabPane(YTD)}
+      </Tabs>
+    </Card>
   );
 };
 

@@ -3,15 +3,53 @@ import { EChartsOption } from 'echarts';
 import { CustChartPtLineProps } from '../types';
 import Echart from '../../components/Echart';
 
+function sumArrays(arr1: number[], arr2: number[]): number[] {
+  const resultArray: number[] = [];
+
+  for (let i = 0; i < arr1.length || i < arr2.length; i++) {
+    const sum = (arr1[i] || 0) + (arr2[i] || 0);
+    resultArray.push(sum);
+  }
+
+  return resultArray;
+}
+
 const QuorterChartContent: React.FC<CustChartPtLineProps> = props => {
   // let [options, setOptions] = useState<EChartsOption>({});
   const [options, setOptions] = useState<EChartsOption>({});
+  const legend_data = ['This Year', 'Last Year', 'Total'];
   const { title } = props;
+  // 获取当前日期
+  const currentDate = new Date();
+  const currentQuarter = Math.floor(currentDate.getMonth() / 3) + 1;
+  const quarters: string[] = [];
+  const xAxis_data_this_year = [320, 332, 301, 334, 390, 330, 320];
+  const xAxis_data_last_year = [220, 182, 191, 234, 290, 330, 310];
+  const sum_data = sumArrays(xAxis_data_this_year, xAxis_data_last_year);
+  for (let i = 0; i < 7; i++) {
+    let quarterNumber = currentQuarter - i;
+    let year = currentDate.getFullYear();
+    if (quarterNumber <= 0) {
+      quarterNumber += 4;
+      year--;
+      console.log(year, quarterNumber);
+      if (quarterNumber <= 0) {
+        quarterNumber += 4;
+        year--;
+        console.log(year, quarterNumber);
+      }
+    }
+    const v = `${year.toString().slice(2)}.${quarterNumber}Q`;
+    console.log(v);
+    quarters.push(v);
+  }
+  // console.log(quarters); // ['21Q4', '21Q3', '21Q2', '21Q1', '20Q4', '20Q3', '20Q2']
+
   useEffect(() => {
     setOptions({
       title: {
         text: title,
-        left: 'center',
+        left: 'left',
       },
       tooltip: {
         trigger: 'axis',
@@ -25,6 +63,7 @@ const QuorterChartContent: React.FC<CustChartPtLineProps> = props => {
         right: 0,
         top: 0,
         bottom: 0,
+        data: legend_data,
       },
       grid: {
         left: '8%',
@@ -35,7 +74,8 @@ const QuorterChartContent: React.FC<CustChartPtLineProps> = props => {
       xAxis: [
         {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: quarters.reverse(),
+          axisLabel: { interval: 0, rotate: 30 },
         },
       ],
       yAxis: [
@@ -43,92 +83,54 @@ const QuorterChartContent: React.FC<CustChartPtLineProps> = props => {
           type: 'value',
         },
       ],
+
       series: [
         {
-          name: 'Direct',
+          name: legend_data[0],
           type: 'bar',
+          stack: 'stack',
           emphasis: {
             focus: 'series',
           },
-          data: [320, 332, 301, 334, 390, 330, 320],
-        },
-        {
-          name: 'Email',
-          type: 'bar',
-          stack: 'Ad',
-          emphasis: {
-            focus: 'series',
-          },
-          data: [120, 132, 101, 134, 90, 230, 210],
-        },
-        {
-          name: 'Union Ads',
-          type: 'bar',
-          stack: 'Ad',
-          emphasis: {
-            focus: 'series',
-          },
-          data: [220, 182, 191, 234, 290, 330, 310],
-        },
-        {
-          name: 'Video Ads',
-          type: 'bar',
-          stack: 'Ad',
-          emphasis: {
-            focus: 'series',
-          },
-          data: [150, 232, 201, 154, 190, 330, 410],
-        },
-        {
-          name: 'Search Engine',
-          type: 'bar',
-          data: [862, 1018, 964, 1026, 1679, 1600, 1570],
-          emphasis: {
-            focus: 'series',
-          },
-          markLine: {
-            lineStyle: {
-              type: 'dashed',
+          data: xAxis_data_this_year,
+          label: {
+            show: true,
+            formatter(params: any) {
+              return `${params.value}`; // 将节点名称和值显示在标签中
             },
-            data: [[{ type: 'min' }, { type: 'max' }]],
           },
         },
+
         {
-          name: 'Baidu',
+          name: legend_data[1],
           type: 'bar',
-          // barWidth: 5,
-          stack: 'Search Engine',
+          stack: 'stack',
           emphasis: {
             focus: 'series',
           },
-          data: [620, 732, 701, 734, 1090, 1130, 1120],
+          data: xAxis_data_last_year,
+          label: {
+            show: true,
+            formatter(params: any) {
+              return `${params.value}`; // 将节点名称和值显示在标签中
+            },
+          },
         },
         {
-          name: 'Google',
+          name: 'Total',
           type: 'bar',
-          stack: 'Search Engine',
+          stack: 'total',
+          label: {
+            show: true,
+            position: 'outside',
+            formatter(params: any) {
+              return `${params.value}`; // 显示总和值
+            },
+          },
           emphasis: {
             focus: 'series',
           },
-          data: [120, 132, 101, 134, 290, 230, 220],
-        },
-        {
-          name: 'Bing',
-          type: 'bar',
-          stack: 'Search Engine',
-          emphasis: {
-            focus: 'series',
-          },
-          data: [60, 72, 71, 74, 190, 130, 110],
-        },
-        {
-          name: 'Others',
-          type: 'bar',
-          stack: 'Search Engine',
-          emphasis: {
-            focus: 'series',
-          },
-          data: [62, 82, 91, 84, 109, 110, 120],
+          data: sum_data,
         },
       ],
     });

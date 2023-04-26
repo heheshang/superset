@@ -6,12 +6,37 @@ import { CustChartPtLineProps } from '../types';
 const YearlyChartContent: React.FC<CustChartPtLineProps> = props => {
   // let [options, setOptions] = useState<EChartsOption>({});
   const [options, setOptions] = useState<EChartsOption>({});
+  const legend_data = ['This Year', 'Last Year'];
   const { title } = props;
+  // 获取当前日期
+  const currentDate = new Date();
+  const currentQuarter = Math.floor(currentDate.getMonth() / 3) + 1;
+  const quarters: string[] = [];
+
+  for (let i = 0; i < 7; i++) {
+    let quarterNumber = currentQuarter - i;
+    let year = currentDate.getFullYear();
+    if (quarterNumber <= 0) {
+      quarterNumber += 4;
+      year--;
+      console.log(year, quarterNumber);
+      if (quarterNumber <= 0) {
+        quarterNumber += 4;
+        year--;
+        console.log(year, quarterNumber);
+      }
+    }
+    const v = `${year.toString().slice(2)}.${quarterNumber}Q`;
+    console.log(v);
+    quarters.push(v);
+  }
+  // console.log(quarters); // ['21Q4', '21Q3', '21Q2', '21Q1', '20Q4', '20Q3', '20Q2']
+
   useEffect(() => {
     setOptions({
       title: {
         text: title,
-        left: 'center',
+        left: 'left',
       },
       tooltip: {
         trigger: 'axis',
@@ -25,14 +50,9 @@ const YearlyChartContent: React.FC<CustChartPtLineProps> = props => {
         right: 0,
         top: 0,
         bottom: 0,
-        // padding: [50, 50, 50, 50],
+        data: legend_data,
       },
-
       grid: {
-        // left: "3%",
-        // right: "10%",
-        // bottom: "3%",
-        // containLabel: true,
         left: '8%',
         right: '15%',
         bottom: '10%',
@@ -41,7 +61,8 @@ const YearlyChartContent: React.FC<CustChartPtLineProps> = props => {
       xAxis: [
         {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: quarters.reverse(),
+          axisLabel: { interval: 0, rotate: 30 },
         },
       ],
       yAxis: [
@@ -51,90 +72,35 @@ const YearlyChartContent: React.FC<CustChartPtLineProps> = props => {
       ],
       series: [
         {
-          name: 'Direct',
-          type: 'bar',
-          emphasis: {
-            focus: 'series',
-          },
-          data: [320, 332, 301, 334, 390, 330, 320],
-        },
-        {
-          name: 'Email',
+          name: legend_data[0],
           type: 'bar',
           stack: 'Ad',
           emphasis: {
             focus: 'series',
           },
-          data: [120, 132, 101, 134, 90, 230, 210],
+          data: [320, 332, 301, 334, 390, 330, 320],
+          label: {
+            show: true,
+            formatter(params: any) {
+              return `${params.value}`; // 将节点名称和值显示在标签中
+            },
+          },
         },
+
         {
-          name: 'Union Ads',
+          name: legend_data[1],
           type: 'bar',
           stack: 'Ad',
           emphasis: {
             focus: 'series',
           },
           data: [220, 182, 191, 234, 290, 330, 310],
-        },
-        {
-          name: 'Video Ads',
-          type: 'bar',
-          stack: 'Ad',
-          emphasis: {
-            focus: 'series',
-          },
-          data: [150, 232, 201, 154, 190, 330, 410],
-        },
-        {
-          name: 'Search Engine',
-          type: 'bar',
-          data: [862, 1018, 964, 1026, 1679, 1600, 1570],
-          emphasis: {
-            focus: 'series',
-          },
-          markLine: {
-            lineStyle: {
-              type: 'dashed',
+          label: {
+            show: true,
+            formatter(params: any) {
+              return `${params.value}`; // 将节点名称和值显示在标签中
             },
-            data: [[{ type: 'min' }, { type: 'max' }]],
           },
-        },
-        {
-          name: 'Baidu',
-          type: 'bar',
-          // barWidth: 5,
-          stack: 'Search Engine',
-          emphasis: {
-            focus: 'series',
-          },
-          data: [620, 732, 701, 734, 1090, 1130, 1120],
-        },
-        {
-          name: 'Google',
-          type: 'bar',
-          stack: 'Search Engine',
-          emphasis: {
-            focus: 'series',
-          },
-          data: [120, 132, 101, 134, 290, 230, 220],
-        },
-        {
-          name: 'Bing',
-          type: 'bar',
-          stack: 'Search Engine',
-          emphasis: {
-            focus: 'series',
-          },
-          data: [60, 72, 71, 74, 190, 130, 110],
-        },
-        {
-          name: 'Others',
-          type: 'bar',
-          stack: 'Search Engine',
-          emphasis: {
-            focus: 'series',
-          },
-          data: [62, 82, 91, 84, 109, 110, 120],
         },
       ],
     });
