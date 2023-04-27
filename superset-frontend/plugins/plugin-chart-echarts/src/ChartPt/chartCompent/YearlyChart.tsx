@@ -31,14 +31,26 @@ const YearlyChartContent: React.FC<CustChartPtLineProps> = props => {
         trigger: 'axis',
         formatter(params) {
           let res = '<div>';
-          res += `时间：${params[0].name}<br/>`;
-          res += `数值：${params[0].value}M<br/>`;
+          res += `Year Of Event Date: ${params[0].name}<br/>`;
+          res += `Currency_Symbol: ${params[0].name}<br/>`;
+          res += `${title}: ${params[0].value}<br/>`;
+          res += `${title} TREND YTD -last two years STR:${params[0].value}M<br/>`;
+          res += `${title} TREND YTD STR:${params[1].value}M<br/>`;
           res += '</div>';
           return res;
         },
-        padding: [10, 15],
+        confine: true,
+        // position: ['50%', '50%'],
+        // position: [10, 10],
+        position(pos, params, dom, rect, size) {
+          // 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
+          const obj = { top: 60 };
+          obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5;
+          return obj;
+        },
+
         textStyle: {
-          fontSize: 14,
+          fontSize: 10,
         },
       },
 

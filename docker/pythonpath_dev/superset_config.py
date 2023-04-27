@@ -109,7 +109,11 @@ ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
 # WEBDRIVER_BASEURL = "http://superset:8088/"
 # # The base URL for the email report hyperlinks.
 # WEBDRIVER_BASEURL_USER_FRIENDLY = WEBDRIVER_BASEURL
-
+LANGUAGES = {
+    'zh': {'flag': 'cn', 'name': 'Chinese'},
+    'en': {'flag': 'us', 'name': 'English'},
+    'fr': {'flag': 'fr', 'name': 'French'},
+}
 
 class CeleryConfig:
     broker_url = 'redis://%s:%s/0' % (REDIS_HOST, REDIS_PORT)
