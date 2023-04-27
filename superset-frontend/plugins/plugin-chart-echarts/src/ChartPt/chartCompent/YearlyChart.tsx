@@ -6,30 +6,18 @@ import { CustChartPtLineProps } from '../types';
 const YearlyChartContent: React.FC<CustChartPtLineProps> = props => {
   // let [options, setOptions] = useState<EChartsOption>({});
   const [options, setOptions] = useState<EChartsOption>({});
-  const legend_data = ['This Year', 'Last Year'];
   const { title } = props;
   // 获取当前日期
   const currentDate = new Date();
-  const currentQuarter = Math.floor(currentDate.getMonth() / 3) + 1;
-  const quarters: string[] = [];
+  let year = currentDate.getFullYear();
+  const years: string[] = [];
 
-  for (let i = 0; i < 7; i += 1) {
-    let quarterNumber = currentQuarter - i;
-    let year = currentDate.getFullYear();
-    if (quarterNumber <= 0) {
-      quarterNumber += 4;
-      year -= 1;
-      console.log(year, quarterNumber);
-      if (quarterNumber <= 0) {
-        quarterNumber += 4;
-        year -= 1;
-        console.log(year, quarterNumber);
-      }
-    }
-    const v = `${year.toString().slice(2)}.${quarterNumber}Q`;
-    console.log(v);
-    quarters.push(v);
+  for (let i = 0; i < 3; i += 1) {
+    const v = `${year.toString()}年`;
+    years.push(v);
+    year -= 1;
   }
+  const years_data = years.reverse();
   // console.log(quarters); // ['21Q4', '21Q3', '21Q2', '21Q1', '20Q4', '20Q3', '20Q2']
 
   useEffect(() => {
@@ -38,19 +26,32 @@ const YearlyChartContent: React.FC<CustChartPtLineProps> = props => {
         text: title,
         left: 'left',
       },
+
       tooltip: {
         trigger: 'axis',
-        axisPointer: {
-          type: 'shadow',
+        formatter(params) {
+          let res = '<div>';
+          res += `时间：${params[0].name}<br/>`;
+          res += `数值：${params[0].value}M<br/>`;
+          res += '</div>';
+          return res;
+        },
+        padding: [10, 15],
+        textStyle: {
+          fontSize: 14,
         },
       },
+
       legend: {
         type: 'scroll',
         orient: 'horizontal',
         right: 0,
         top: 0,
         bottom: 0,
-        data: legend_data,
+        data: years_data,
+        tooltip: {
+          show: true,
+        },
       },
       grid: {
         left: '8%',
@@ -61,7 +62,7 @@ const YearlyChartContent: React.FC<CustChartPtLineProps> = props => {
       xAxis: [
         {
           type: 'category',
-          data: quarters.reverse(),
+          data: years_data,
           axisLabel: { interval: 0, rotate: 30 },
         },
       ],
@@ -72,33 +73,32 @@ const YearlyChartContent: React.FC<CustChartPtLineProps> = props => {
       ],
       series: [
         {
-          name: legend_data[0],
+          name: '1111',
           type: 'bar',
-          stack: 'Ad',
+          stack: '总量',
           emphasis: {
             focus: 'series',
           },
-          data: [320, 332, 301, 334, 390, 330, 320],
+          data: ['1819.3', '2135.0', '2396.6'],
           label: {
             show: true,
             formatter(params: any) {
-              return `${params.value}`; // 将节点名称和值显示在标签中
+              return `$${params.value}M`; // 将节点名称和值显示在标签中
             },
           },
         },
-
         {
-          name: legend_data[1],
+          name: '22222',
           type: 'bar',
-          stack: 'Ad',
+          stack: '总量',
           emphasis: {
             focus: 'series',
           },
-          data: [220, 182, 191, 234, 290, 330, 310],
+          data: ['5553.7', '6374.5', ''],
           label: {
             show: true,
             formatter(params: any) {
-              return `${params.value}`; // 将节点名称和值显示在标签中
+              return `$${params.value}M`; // 将节点名称和值显示在标签中
             },
           },
         },
