@@ -185,6 +185,26 @@ const config: ControlPanelConfig = {
               description: t('The size of your header font'),
             },
           },
+          {
+            name: 'chart_title',
+            config: {
+              type: 'SelectControl',
+              label: t('chart_title'),
+              default: 'xl',
+              choices: [
+                // [value, label]
+                ['xxs', 'xx-small'],
+                ['xs', 'x-small'],
+                ['s', 'small'],
+                ['m', 'medium'],
+                ['l', 'large'],
+                ['xl', 'x-large'],
+                ['xxl', 'xx-large'],
+              ],
+              renderTrigger: true,
+              description: t('The size of your header font'),
+            },
+          },
         ],
       ],
     },

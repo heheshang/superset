@@ -159,7 +159,7 @@ SMTP_SSL = False
 SMTP_USER = "shang.shi.kun@163.com" # use the empty string "" if using an unauthenticated SMTP server
 SMTP_PASSWORD = "BDBGLEALYBDWIUKH" # use the empty string "" if using an unauthenticated SMTP server
 SMTP_MAIL_FROM = "shang.shi.kun@163.com"
-EMAIL_REPORTS_SUBJECT_PREFIX = "[Superset] " # optional - overwrites default value in config.py of "[Report] "
+EMAIL_REPORTS_SUBJECT_PREFIX = "[Dashboard] " # optional - overwrites default value in config.py of "[Report] "
 
 # WebDriver configuration
 # If you use Firefox, you can stick with default values
@@ -242,7 +242,7 @@ THUMBNAIL_CACHE_CONFIG = {
     "CACHE_REDIS_DB": REDIS_CELERY_DB,
 }
 
-
+EXTRA_HTML_HEAD += '<style>.chart-header { text-align: center; }</style>'
 #
 # Optionally import superset_config_docker.py (which will have been included on
 # the PYTHONPATH) in order to allow for local settings to be overridden
