@@ -7,7 +7,7 @@
 # with the License.  You may obtain a copy of the License at
 #
 #   http://www.apache.org/licenses/LICENSE-2.0
-#
+#                                                                                                   
 # Unless required by applicable law or agreed to in writing,
 # software distributed under the License is distributed on an
 # "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -182,8 +182,8 @@ SECRET_KEY = CHANGE_ME_SECRET_KEY
 
 # The SQLAlchemy connection string.
 # SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(DATA_DIR, "superset.db")
-SQLALCHEMY_DATABASE_URI = 'mysql://superset:superset@localhost/superset'
-# SQLALCHEMY_DATABASE_URI = 'postgresql://root:password@localhost/myapp'
+# SQLALCHEMY_DATABASE_URI = 'mysql://superset:superset@localhost/superset'
+SQLALCHEMY_DATABASE_URI = 'postgresql://superset:superset@localhost:15432/superset'
 
 # In order to hook up a custom password store for all SQLACHEMY connections
 # implement a function that takes a single argument of type 'sqla.engine.url',
