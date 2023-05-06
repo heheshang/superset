@@ -188,7 +188,7 @@ WEBDRIVER_WINDOW = {
 # This is for internal use, you can keep http
 WEBDRIVER_BASEURL = "http://superset:8088"
 # This is the link sent to the recipient. Change to your domain, e.g. https://superset.mydomain.com
-WEBDRIVER_BASEURL_USER_FRIENDLY = "http://tx:28088"
+WEBDRIVER_BASEURL_USER_FRIENDLY = "http://52.82.122.156:28088"
 
 
 
