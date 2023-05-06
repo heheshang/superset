@@ -17,16 +17,16 @@
  * under the License.
  */
 import React, { useEffect, createRef } from 'react';
-// import { Card, Row, Col, Tabs, Space, Typography } from 'antd';
 import { Card, Row, Col, Typography } from 'antd';
 import { ChartPtProps } from './types';
-// import { DailyChartContent } from './chartCompent/DailyChart';
-// import { WeeklyChartContent } from './chartCompent/WeeklyChart';
-// import { MonthlyChartContent } from './chartCompent/MonthlyChart';
-// import { QuorterChartContent } from './chartCompent/QuorterChart';
-// import { YearlyChartContent } from './chartCompent/YearlyChart';
 import CustomCol from './compent/CustomCol';
-import customColList from './util/constant';
+import customColList, {
+  cancelAmountTitle,
+  conversionTitle,
+  netRevenueTitle,
+  returnAmountTitle,
+  shopperVisitsTitle,
+} from './util/constant';
 
 const { Text } = Typography;
 // The following Styles component is a <div> element, which has been styled using Emotion
@@ -59,6 +59,48 @@ const { Text } = Typography;
 //   }
 // `;
 
+const formatter_data_precent = (data: string | number | null): string => {
+  if (typeof data === 'number') {
+    return `${data.toFixed(2)}%`;
+  }
+  if (typeof data === 'string') {
+    return `${parseFloat(data).toFixed(2)}%`;
+  }
+  return '0.00%';
+};
+const formatter_data_net_revenue = (data: string | number | null): string => {
+  if (typeof data === 'number') {
+    return `$${(data / 1000000).toLocaleString(undefined, {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    })}M`;
+  }
+  if (typeof data === 'string') {
+    return `$${(Number(data) / 1000000).toLocaleString(undefined, {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    })}M`;
+  }
+  return '$0.00M';
+};
+const formatter_data_shopper_visits = (
+  data: string | number | null,
+): string => {
+  if (typeof data === 'number') {
+    return `${(data / 1000000).toLocaleString(undefined, {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    })}M`;
+  }
+  if (typeof data === 'string') {
+    return `${(Number(data) / 1000000).toLocaleString(undefined, {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    })}M`;
+  }
+  return '0.00M';
+};
+
 export default function DashBoardPt(props: ChartPtProps) {
   // height and width are the height and width of the DOM element as it exists in the dashboard.
   // There is also a `data` prop, which is, of course, your DATA 🎉
@@ -70,30 +112,86 @@ export default function DashBoardPt(props: ChartPtProps) {
     const root = rootElem.current as HTMLElement;
     console.log('Plugin element', root);
   });
-  const datetime = `${new Date().getFullYear()}-${
-    new Date().getUTCMonth() + 1
-  }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
 
   console.log('Plugin props', props);
+  console.log('Plugin data', data);
 
+  const { adobe_refresh_ts, gpv2_refresh_ts, hybris_refresh_ts } = data[0];
+  customColList.forEach(config => {
+    if (config.Title === '\u00A0') {
+      if (data[0].event_date_local === null) {
+        const datetime = `${new Date().getFullYear()}-${
+          new Date().getUTCMonth() + 1
+        }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
+
+        config.Daily = datetime;
+      } else {
+        const dateString = `${data[0].event_date_local}`;
+        const year = dateString.substring(0, 4);
+        const month = dateString.substring(4, 6);
+        const day = dateString.substring(6, 8);
+        const formattedDate = `${year}/${month}/${day}`;
+        // console.log(formattedDate); // 输出 "2021/01/01"
+        config.Daily = formattedDate;
+      }
+    }
+    if (config.Title == netRevenueTitle) {
+      config.Daily = formatter_data_net_revenue(data[0].net_revenue);
+      config.Weekly = formatter_data_net_revenue(data[0].net_revenue_w);
+      config.Monthly = formatter_data_net_revenue(data[0].net_revenue_m);
+      config.Yearly = formatter_data_net_revenue(data[0].net_revenue_y);
+      config.Quarterly = formatter_data_net_revenue(data[0].net_revenue_q);
+    }
+    if (config.Title == shopperVisitsTitle) {
+      config.Daily = formatter_data_shopper_visits(data[0].shopper_visits);
+      config.Weekly = formatter_data_shopper_visits(data[0].shopper_visits_w);
+      config.Monthly = formatter_data_shopper_visits(data[0].shopper_visits_m);
+      config.Yearly = formatter_data_shopper_visits(data[0].shopper_visits_y);
+      config.Quarterly = formatter_data_shopper_visits(
+        data[0].shopper_visits_q,
+      );
+    }
+    if (config.Title == conversionTitle) {
+      config.Daily = formatter_data_precent(data[0].conersion);
+      config.Weekly = formatter_data_precent(data[0].conersion_w);
+      config.Monthly = formatter_data_precent(data[0].conersion_m);
+      config.Yearly = formatter_data_precent(data[0].conersion_y);
+      config.Quarterly = formatter_data_precent(data[0].conersion_q);
+    }
+    if (config.Title == cancelAmountTitle) {
+      config.Daily = formatter_data_precent(data[0].cancel_amount);
+      config.Weekly = formatter_data_precent(data[0].cancel_amount_w);
+      config.Monthly = formatter_data_precent(data[0].cancel_amount_m);
+      config.Yearly = formatter_data_precent(data[0].cancel_amount_y);
+      config.Quarterly = formatter_data_precent(data[0].cancel_amount_q);
+    }
+    if (config.Title == returnAmountTitle) {
+      config.Daily = formatter_data_precent(data[0].cancel_amount);
+      config.Weekly = formatter_data_precent(data[0].cancel_amount_w);
+      config.Monthly = formatter_data_precent(data[0].cancel_amount_m);
+      config.Yearly = formatter_data_precent(data[0].cancel_amount_y);
+      config.Quarterly = formatter_data_precent(data[0].cancel_amount_q);
+    }
+  });
   return (
     <div>
       <Card
+        key={1}
         style={{ width, height }}
         title={'\u00A0'}
         extra={
           <div>
-            <Row justify="end" align="middle">
+            <Row key="row1" justify="end" align="middle">
               <Text style={{ fontSize: 1 }}>Last refresh time (GMT)</Text>
             </Row>
-            <Row justify="end" align="middle">
-              <Text style={{ fontSize: 1 }}>Adobe:{datetime}</Text>
+            <Row key="row2" justify="end" align="middle">
+              <Text style={{ fontSize: 1 }}>Adobe: {adobe_refresh_ts}</Text>
             </Row>
-            <Row justify="end" align="middle">
-              <Text style={{ fontSize: 1 }}>Hybris:{datetime}</Text>
+            <Row key="row3" justify="end" align="middle">
+              <Text style={{ fontSize: 1 }}>Hybris: {hybris_refresh_ts}</Text>
             </Row>
-            <Row justify="end" align="middle">
-              <Text style={{ fontSize: 1 }}>GPV2:{datetime}</Text>
+            <Row key="row4" justify="end" align="middle">
+              <Text style={{ fontSize: 1 }}>GPV2: {gpv2_refresh_ts}</Text>
             </Row>
           </div>
         }
@@ -136,91 +234,6 @@ export default function DashBoardPt(props: ChartPtProps) {
             </Col>
           ))}
         </Row>
-        {/* <Row>
-          <Tabs style={{ marginTop: 10 }}>
-            <Tabs.TabPane tab="Daily" key="Daily">
-              <Space direction="horizontal" align="center" wrap={false}>
-                <DailyChartContent
-                  height={300}
-                  width={500}
-                  echartOptions={{}}
-                />
-                <DailyChartContent
-                  height={300}
-                  width={500}
-                  echartOptions={{}}
-                />
-                <DailyChartContent
-                  height={300}
-                  width={500}
-                  echartOptions={{}}
-                />
-              </Space>
-            </Tabs.TabPane>
-
-            <Tabs.TabPane tab="WTD" key="WTD">
-              <Row>
-                <Space direction="horizontal" align="center" wrap={false}>
-                  <div style={{ height: 300, width: 500 }}>
-                    <WeeklyChartContent />
-                  </div>
-                  <div style={{ height: 300, width: 500 }}>
-                    <WeeklyChartContent />
-                  </div>
-                  <div style={{ height: 300, width: 500 }}>
-                    <WeeklyChartContent />
-                  </div>
-                </Space>
-              </Row>
-            </Tabs.TabPane>
-
-            <Tabs.TabPane tab="MTD" key="MTD">
-              <Row>
-                <Space direction="horizontal" align="center" wrap={false}>
-                  <div style={{ height: 300, width: 500 }}>
-                    <MonthlyChartContent />
-                  </div>
-                  <div style={{ height: 300, width: 500 }}>
-                    <MonthlyChartContent />
-                  </div>
-                  <div style={{ height: 300, width: 500 }}>
-                    <MonthlyChartContent />
-                  </div>
-                </Space>
-              </Row>
-            </Tabs.TabPane>
-            <Tabs.TabPane tab="QTD" key="QTD">
-              <Row>
-                <Space direction="horizontal" align="center" wrap={false}>
-                  <div style={{ height: 300, width: 500 }}>
-                    <QuorterChartContent />
-                  </div>
-                  <div style={{ height: 300, width: 500 }}>
-                    <QuorterChartContent />
-                  </div>
-                  <div style={{ height: 300, width: 500 }}>
-                    <QuorterChartContent />
-                  </div>
-                </Space>
-              </Row>
-            </Tabs.TabPane>
-            <Tabs.TabPane tab="YTD" key="YTD">
-              <Row>
-                <Space direction="horizontal" align="center" wrap={false}>
-                  <div style={{ height: 300, width: 500 }}>
-                    <YearlyChartContent />
-                  </div>
-                  <div style={{ height: 300, width: 500 }}>
-                    <YearlyChartContent />
-                  </div>
-                  <div style={{ height: 300, width: 500 }}>
-                    <YearlyChartContent />
-                  </div>
-                </Space>
-              </Row>
-            </Tabs.TabPane>
-          </Tabs>
-        </Row> */}
       </Card>
     </div>
   );

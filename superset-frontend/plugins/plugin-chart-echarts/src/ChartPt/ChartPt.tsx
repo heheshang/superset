@@ -19,7 +19,7 @@
 import React, { createRef, useEffect } from 'react';
 // import { CustomChartContent } from './chartCompent/CustomChartContent';
 import { Card, Row, Space, Tabs } from 'antd';
-
+import { QueryParamProvider } from 'use-query-params';
 import { ChartPtLineProps, CustomChartProps, chartComponents } from './types';
 
 // The following Styles component is a <div> element, which has been styled using Emotion
@@ -327,6 +327,8 @@ export default function ChartPt(props: ChartPtLineProps) {
         </Tabs.TabPane>
       </Tabs>
     </Row> */
-    <CustomChartComponent data={data} />
+    <QueryParamProvider>
+      <CustomChartComponent data={data} />
+    </QueryParamProvider>
   );
 }
