@@ -242,7 +242,6 @@ THUMBNAIL_CACHE_CONFIG = {
     "CACHE_REDIS_DB": REDIS_CELERY_DB,
 }
 
-EXTRA_HTML_HEAD += '<style>.chart-header { text-align: center; }</style>'
 #
 # Optionally import superset_config_docker.py (which will have been included on
 # the PYTHONPATH) in order to allow for local settings to be overridden
