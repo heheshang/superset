@@ -33,6 +33,7 @@ class PostgreSQLValidator(BaseSQLValidator):  # pylint: disable=too-few-public-m
     def validate(
         cls, sql: str, schema: Optional[str], database: Database
     ) -> List[SQLValidationAnnotation]:
+        print(f"PostgreSQLValidator.validate {sql} {schema} {database}")
         annotations: List[SQLValidationAnnotation] = []
         valid, error = check_string(sql, add_semicolon=True)
         if valid:
