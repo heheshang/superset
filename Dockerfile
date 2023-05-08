@@ -177,6 +177,7 @@ RUN pip config set install.trusted-host mirrors.aliyun.com
 RUN cd /app \
     && pip install --no-cache -r /requirements/docker.txt \
     && pip install --no-cache -r /requirements/requirements-local.txt || true
+
 USER superset
 
 
