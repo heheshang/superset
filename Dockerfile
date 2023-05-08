@@ -147,8 +147,8 @@ ARG GECKODRIVER_VERSION=v0.28.0
 ARG FIREFOX_VERSION=88.0
 
 COPY ./requirements/*.txt ./docker/requirements-*.txt/ /app/requirements/
-COPY ./firefox-88.0.tar.bz2 /app/firefox-88.0.tar.bz2
-COPY ./geckodriver-v0.28.0-linux64.tar.gz /app/geckodriver-v0.28.0-linux64.tar.gz
+COPY firefox-88.0.tar.bz2 /app/firefox-88.0.tar.bz2
+COPY geckodriver-v0.28.0-linux64.tar.gz /app/geckodriver-v0.28.0-linux64.tar.gz
 
 USER root
 

@@ -18,7 +18,7 @@
  */
 import React, { useEffect, createRef } from 'react';
 import { Card, Row, Col, Typography } from 'antd';
-import { ChartPtProps } from './types';
+import { ChartPtProps, ICustomColdata } from './types';
 import CustomCol from './compent/CustomCol';
 import customColList, {
   cancelAmountTitle,
@@ -117,14 +117,16 @@ export default function DashBoardPt(props: ChartPtProps) {
   console.log('Plugin data', data);
 
   const { adobe_refresh_ts, gpv2_refresh_ts, hybris_refresh_ts } = data[0];
+  const list_Col: ICustomColdata[] = [];
   customColList.forEach(config => {
-    if (config.Title === '\u00A0') {
+    const newconfig = { ...config };
+    if (newconfig.Title === '\u00A0') {
       if (data[0].event_date_local === null) {
         const datetime = `${new Date().getFullYear()}-${
           new Date().getUTCMonth() + 1
         }-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
 
-        config.Daily = datetime;
+        newconfig.Daily = datetime;
       } else {
         const dateString = `${data[0].event_date_local}`;
         const year = dateString.substring(0, 4);
@@ -132,46 +134,53 @@ export default function DashBoardPt(props: ChartPtProps) {
         const day = dateString.substring(6, 8);
         const formattedDate = `${year}/${month}/${day}`;
         // console.log(formattedDate); // 输出 "2021/01/01"
-        config.Daily = formattedDate;
+        newconfig.Daily = formattedDate;
       }
     }
-    if (config.Title == netRevenueTitle) {
-      config.Daily = formatter_data_net_revenue(data[0].net_revenue);
-      config.Weekly = formatter_data_net_revenue(data[0].net_revenue_w);
-      config.Monthly = formatter_data_net_revenue(data[0].net_revenue_m);
-      config.Yearly = formatter_data_net_revenue(data[0].net_revenue_y);
-      config.Quarterly = formatter_data_net_revenue(data[0].net_revenue_q);
+    if (newconfig.Title === netRevenueTitle) {
+      newconfig.Daily = formatter_data_net_revenue(data[0].net_revenue);
+      newconfig.Weekly = formatter_data_net_revenue(data[0].net_revenue_w);
+      newconfig.Monthly = formatter_data_net_revenue(data[0].net_revenue_m);
+      newconfig.Yearly = formatter_data_net_revenue(data[0].net_revenue_y);
+      newconfig.Quarterly = formatter_data_net_revenue(data[0].net_revenue_q);
     }
-    if (config.Title == shopperVisitsTitle) {
-      config.Daily = formatter_data_shopper_visits(data[0].shopper_visits);
-      config.Weekly = formatter_data_shopper_visits(data[0].shopper_visits_w);
-      config.Monthly = formatter_data_shopper_visits(data[0].shopper_visits_m);
-      config.Yearly = formatter_data_shopper_visits(data[0].shopper_visits_y);
-      config.Quarterly = formatter_data_shopper_visits(
+    if (newconfig.Title === shopperVisitsTitle) {
+      newconfig.Daily = formatter_data_shopper_visits(data[0].shopper_visits);
+      newconfig.Weekly = formatter_data_shopper_visits(
+        data[0].shopper_visits_w,
+      );
+      newconfig.Monthly = formatter_data_shopper_visits(
+        data[0].shopper_visits_m,
+      );
+      newconfig.Yearly = formatter_data_shopper_visits(
+        data[0].shopper_visits_y,
+      );
+      newconfig.Quarterly = formatter_data_shopper_visits(
         data[0].shopper_visits_q,
       );
     }
-    if (config.Title == conversionTitle) {
-      config.Daily = formatter_data_precent(data[0].conersion);
-      config.Weekly = formatter_data_precent(data[0].conersion_w);
-      config.Monthly = formatter_data_precent(data[0].conersion_m);
-      config.Yearly = formatter_data_precent(data[0].conersion_y);
-      config.Quarterly = formatter_data_precent(data[0].conersion_q);
+    if (newconfig.Title === conversionTitle) {
+      newconfig.Daily = formatter_data_precent(data[0].conversion);
+      newconfig.Weekly = formatter_data_precent(data[0].conversion_w);
+      newconfig.Monthly = formatter_data_precent(data[0].conversion_m);
+      newconfig.Yearly = formatter_data_precent(data[0].conversion_y);
+      newconfig.Quarterly = formatter_data_precent(data[0].conversion_q);
     }
-    if (config.Title == cancelAmountTitle) {
-      config.Daily = formatter_data_precent(data[0].cancel_amount);
-      config.Weekly = formatter_data_precent(data[0].cancel_amount_w);
-      config.Monthly = formatter_data_precent(data[0].cancel_amount_m);
-      config.Yearly = formatter_data_precent(data[0].cancel_amount_y);
-      config.Quarterly = formatter_data_precent(data[0].cancel_amount_q);
+    if (newconfig.Title === cancelAmountTitle) {
+      newconfig.Daily = formatter_data_precent(data[0].cancel_amount);
+      newconfig.Weekly = formatter_data_precent(data[0].cancel_amount_w);
+      newconfig.Monthly = formatter_data_precent(data[0].cancel_amount_m);
+      newconfig.Yearly = formatter_data_precent(data[0].cancel_amount_y);
+      newconfig.Quarterly = formatter_data_precent(data[0].cancel_amount_q);
     }
-    if (config.Title == returnAmountTitle) {
-      config.Daily = formatter_data_precent(data[0].cancel_amount);
-      config.Weekly = formatter_data_precent(data[0].cancel_amount_w);
-      config.Monthly = formatter_data_precent(data[0].cancel_amount_m);
-      config.Yearly = formatter_data_precent(data[0].cancel_amount_y);
-      config.Quarterly = formatter_data_precent(data[0].cancel_amount_q);
+    if (newconfig.Title === returnAmountTitle) {
+      newconfig.Daily = formatter_data_precent(data[0].return_amount);
+      newconfig.Weekly = formatter_data_precent(data[0].return_amount_w);
+      newconfig.Monthly = formatter_data_precent(data[0].return_amount_m);
+      newconfig.Yearly = formatter_data_precent(data[0].return_amount_y);
+      newconfig.Quarterly = formatter_data_precent(data[0].return_amount_q);
     }
+    list_Col.push(newconfig);
   });
   return (
     <div>
@@ -197,7 +206,7 @@ export default function DashBoardPt(props: ChartPtProps) {
         }
       >
         <Row>
-          {customColList.map(config => (
+          {list_Col.map(config => (
             <Col span={4}>
               <CustomCol
                 Title={config.Title}

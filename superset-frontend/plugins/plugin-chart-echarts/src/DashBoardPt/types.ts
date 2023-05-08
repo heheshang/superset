@@ -45,11 +45,11 @@ export interface ICustomizeProps extends DataRecord {
   shopper_visits: number | string | null;
   cancel_amount: number | string | null;
   return_amount: number | string | null;
-  conersion: number | string | null;
-  conersion_w: number | string | null;
-  conersion_m: number | string | null;
-  conersion_q: number | string | null;
-  conersion_y: number | string | null;
+  conversion: number | string | null;
+  conversion_w: number | string | null;
+  conversion_m: number | string | null;
+  conversion_q: number | string | null;
+  conversion_y: number | string | null;
   net_revenue_w: number | string | null;
   shopper_visits_w: number | string | null;
   cancel_amount_w: number | string | null;
@@ -110,3 +110,19 @@ export interface ICustomColdata {
   YearlyYoYToolTip: number | string | Date | null;
 }
 export type CustomColProps = ICustomColdata & ChartPtProps;
+
+// type RenameFields<T, U> = {
+//   [K in keyof T as K extends keyof U ? U[K] : K]: T[K];
+// };
+
+// interface Person {
+//   firstName: string;
+//   lastName: string;
+// }
+
+// const data = {
+//   "first_name": "Alice",
+//   "last_name": "Smith"
+// };
+
+// const person: RenameFields<typeof data, Person> = data;
