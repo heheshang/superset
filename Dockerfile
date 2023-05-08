@@ -174,7 +174,7 @@ RUN mv /app/firefox-88.0.tar.bz2 /opt/firefox.tar.bz2 && \
 
 RUN pip config set global.index-url http://mirrors.aliyun.com/pypi/simple
 RUN pip config set install.trusted-host mirrors.aliyun.com
-RUN cd /app &&\
+RUN cd /app \
     && pip install --no-cache -r /requirements/docker.txt \
     && pip install --no-cache -r /requirements/requirements-local.txt || true
 USER superset
