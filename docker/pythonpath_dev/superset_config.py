@@ -164,24 +164,24 @@ EMAIL_REPORTS_SUBJECT_PREFIX = "[Dashboard] " # optional - overwrites default va
 # WebDriver configuration
 # If you use Firefox, you can stick with default values
 # If you use Chrome, then add the following WEBDRIVER_TYPE and WEBDRIVER_OPTION_ARGS
-# WEBDRIVER_TYPE = "chrome"
-# WEBDRIVER_OPTION_ARGS = [
-#     "--force-device-scale-factor=2.0",
-#     "--high-dpi-support=2.0",
-#     "--headless",
-#     "--disable-gpu",
-#     "--disable-dev-shm-usage",
-#     "--no-sandbox",
-#     "--disable-setuid-sandbox",
-#     "--disable-extensions",
-# ]
+WEBDRIVER_TYPE = "chrome"
+WEBDRIVER_OPTION_ARGS = [
+    "--force-device-scale-factor=2.0",
+    "--high-dpi-support=2.0",
+    "--headless",
+    "--disable-gpu",
+    "--disable-dev-shm-usage",
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
+    "--disable-extensions",
+]
 
-WEBDRIVER_TYPE = "firefox"
+# WEBDRIVER_TYPE = "firefox"
 
 # Window size - this will impact the rendering of the data
 WEBDRIVER_WINDOW = {
-    "dashboard": (1600, 2000),
-    "slice": (3000, 1200),
+    "dashboard": (2000, 2000),
+    "slice": (3000, 2000),
     "pixel_density": 1,
 }
 
