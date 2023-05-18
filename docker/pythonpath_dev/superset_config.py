@@ -244,10 +244,10 @@ THUMBNAIL_CACHE_CONFIG = {
 # kbiTPCiSiAC2PTe1i9x1tXjUr5+geNiWWRFKG4vtf0C2pvBbqVxuGwq6
 SECRET_KEY ='kbiTPCiSiAC2PTe1i9x1tXjUr5+geNiWWRFKG4vtf0C2pvBbqVxuGwq6'
 
-APP_NAME = "Superset"
+APP_NAME = "SAMSUNG"
 
 # Specify the App icon
-APP_ICON = "/static/assets/images/superset-logo-horiz.png"
+# APP_ICON = "/app/docker/static/assets/images/superset-logo-horiz.png"
 
 #
 # Optionally import superset_config_docker.py (which will have been included on
