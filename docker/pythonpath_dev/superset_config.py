@@ -241,6 +241,13 @@ THUMBNAIL_CACHE_CONFIG = {
     "CACHE_REDIS_PORT": REDIS_PORT,
     "CACHE_REDIS_DB": REDIS_CELERY_DB,
 }
+# kbiTPCiSiAC2PTe1i9x1tXjUr5+geNiWWRFKG4vtf0C2pvBbqVxuGwq6
+SECRET_KEY ='kbiTPCiSiAC2PTe1i9x1tXjUr5+geNiWWRFKG4vtf0C2pvBbqVxuGwq6'
+
+APP_NAME = "Superset"
+
+# Specify the App icon
+APP_ICON = "/static/assets/images/superset-logo-horiz.png"
 
 #
 # Optionally import superset_config_docker.py (which will have been included on
