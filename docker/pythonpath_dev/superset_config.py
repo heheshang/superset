@@ -180,7 +180,7 @@ WEBDRIVER_OPTION_ARGS = [
 
 # Window size - this will impact the rendering of the data
 WEBDRIVER_WINDOW = {
-    "dashboard": (2000, 2000),
+    "dashboard": (4000, 2000),
     "slice": (3000, 2000),
     "pixel_density": 1,
 }
