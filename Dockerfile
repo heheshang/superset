@@ -169,6 +169,8 @@ RUN mv /app/geckodriver-v0.28.0-linux64.tar.gz /tmp/geckodriver.tar.gz && \
 RUN mv /app/firefox-88.0.tar.bz2 /opt/firefox.tar.bz2 && \
     tar xvf /opt/firefox.tar.bz2 -C /opt && \
     ln -s /opt/firefox/firefox /usr/local/bin/firefox
+    
+RUN apt-get update && apt-get install -y chromium-driver
 
 # Cache everything for dev purposes...
 
